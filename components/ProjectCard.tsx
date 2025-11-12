@@ -1,9 +1,9 @@
 // Accessible project card with framer-motion and reduced-motion support
 'use client'
+import { scaleIn } from '@/lib/motion'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { scaleIn } from '@/lib/motion'
 
 interface ProjectCardProps {
   slug: string
@@ -26,8 +26,8 @@ export default function ProjectCard({
 
   return (
     <motion.article
-      initial={prefersReducedMotion ? false : scaleIn.hidden}
-      whileInView={prefersReducedMotion ? false : scaleIn.visible}
+      initial={prefersReducedMotion ? undefined : scaleIn.hidden}
+      whileInView={prefersReducedMotion ? undefined : scaleIn.visible}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, ease: 'easeInOut' }}
       className="group"
@@ -44,7 +44,7 @@ export default function ProjectCard({
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
-            
+
             {/* Category Badge */}
             <div className="absolute top-4 left-4 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-xs font-semibold text-white">
               {category}
@@ -62,10 +62,7 @@ export default function ProjectCard({
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 bg-white/5 rounded text-xs text-gray-300"
-                  >
+                  <span key={tag} className="px-2 py-1 bg-white/5 rounded text-xs text-gray-300">
                     {tag}
                   </span>
                 ))}
@@ -80,4 +77,3 @@ export default function ProjectCard({
     </motion.article>
   )
 }
-

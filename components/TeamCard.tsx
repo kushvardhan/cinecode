@@ -1,8 +1,8 @@
 // Team member card with hover effects and accessibility
 'use client'
+import { scaleIn } from '@/lib/motion'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
-import { scaleIn } from '@/lib/motion'
 
 interface TeamCardProps {
   name: string
@@ -21,8 +21,8 @@ export default function TeamCard({ name, role, image, bio, social }: TeamCardPro
 
   return (
     <motion.article
-      initial={prefersReducedMotion ? false : scaleIn.hidden}
-      whileInView={prefersReducedMotion ? false : scaleIn.visible}
+      initial={prefersReducedMotion ? undefined : scaleIn.hidden}
+      whileInView={prefersReducedMotion ? undefined : scaleIn.visible}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, ease: 'easeInOut' }}
       className="group relative"
@@ -42,10 +42,10 @@ export default function TeamCard({ name, role, image, bio, social }: TeamCardPro
 
         {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-          <h3 className="text-2xl font-bold mb-1 group-hover:text-[var(--accent-cyan)] transition-colors">
+          <h3 className="text-2xl font-bold mb-1 group-hover:text-(--accent-cyan) transition-colors">
             {name}
           </h3>
-          <p className="text-sm text-[var(--accent-gold)] font-semibold mb-3">{role}</p>
+          <p className="text-sm text-(--accent-gold) font-semibold mb-3">{role}</p>
 
           {bio && (
             <p className="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -100,9 +100,8 @@ export default function TeamCard({ name, role, image, bio, social }: TeamCardPro
         </div>
 
         {/* Gradient Overlay on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-gold)]/0 to-[var(--accent-cyan)]/0 group-hover:from-[var(--accent-gold)]/10 group-hover:to-[var(--accent-cyan)]/10 transition-all duration-500 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-rrom-[var(--accent-gold)]/0 to-(--accent-cyan)/0 group-hover:from-(--accent-gold)/10 group-hover:to-(--accent-cyan)/10 transition-all duration-500 pointer-events-none" />
       </div>
     </motion.article>
   )
 }
-

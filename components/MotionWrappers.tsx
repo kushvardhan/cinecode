@@ -1,7 +1,7 @@
 // Reusable motion wrapper components with variants
 'use client'
+import { fadeIn, fadeInUp, motionTokens, scaleIn, slideInLeft, slideInRight } from '@/lib/motion'
 import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion'
-import { fadeIn, fadeInUp, scaleIn, slideInLeft, slideInRight, motionTokens } from '@/lib/motion'
 
 interface MotionWrapperProps extends HTMLMotionProps<'div'> {
   children: React.ReactNode
@@ -15,8 +15,8 @@ export function FadeIn({ children, delay = 0, className, ...props }: MotionWrapp
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : fadeIn.hidden}
-      whileInView={prefersReducedMotion ? false : fadeIn.visible}
+      initial={prefersReducedMotion ? undefined : fadeIn.hidden}
+      whileInView={prefersReducedMotion ? undefined : fadeIn.visible}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: motionTokens.duration.medium, ease: 'easeInOut', delay }}
       className={className}
@@ -33,8 +33,8 @@ export function FadeInUp({ children, delay = 0, className, ...props }: MotionWra
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : fadeInUp.hidden}
-      whileInView={prefersReducedMotion ? false : fadeInUp.visible}
+      initial={prefersReducedMotion ? undefined : fadeInUp.hidden}
+      whileInView={prefersReducedMotion ? undefined : fadeInUp.visible}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: motionTokens.duration.medium, ease: 'easeInOut', delay }}
       className={className}
@@ -51,8 +51,8 @@ export function ScaleIn({ children, delay = 0, className, ...props }: MotionWrap
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : scaleIn.hidden}
-      whileInView={prefersReducedMotion ? false : scaleIn.visible}
+      initial={prefersReducedMotion ? undefined : scaleIn.hidden}
+      whileInView={prefersReducedMotion ? undefined : scaleIn.visible}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: motionTokens.duration.medium, ease: 'easeInOut', delay }}
       className={className}
@@ -69,8 +69,8 @@ export function SlideInLeft({ children, delay = 0, className, ...props }: Motion
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : slideInLeft.hidden}
-      whileInView={prefersReducedMotion ? false : slideInLeft.visible}
+      initial={prefersReducedMotion ? undefined : slideInLeft.hidden}
+      whileInView={prefersReducedMotion ? undefined : slideInLeft.visible}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: motionTokens.duration.medium, ease: 'easeInOut', delay }}
       className={className}
@@ -87,8 +87,8 @@ export function SlideInRight({ children, delay = 0, className, ...props }: Motio
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : slideInRight.hidden}
-      whileInView={prefersReducedMotion ? false : slideInRight.visible}
+      initial={prefersReducedMotion ? undefined : slideInRight.hidden}
+      whileInView={prefersReducedMotion ? undefined : slideInRight.visible}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: motionTokens.duration.medium, ease: 'easeInOut', delay }}
       className={className}
@@ -116,8 +116,8 @@ export function StaggerContainer({
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : 'hidden'}
-      whileInView={prefersReducedMotion ? false : 'visible'}
+      initial={prefersReducedMotion ? undefined : 'hidden'}
+      whileInView={prefersReducedMotion ? undefined : 'visible'}
       viewport={{ once: true, margin: '-50px' }}
       variants={{
         hidden: {},
@@ -141,7 +141,7 @@ export function StaggerItem({ children, className, ...props }: MotionWrapperProp
 
   return (
     <motion.div
-      variants={prefersReducedMotion ? {} : fadeInUp}
+      variants={prefersReducedMotion ? undefined : fadeInUp}
       transition={{ duration: motionTokens.duration.medium, ease: 'easeInOut' }}
       className={className}
       {...props}
@@ -150,4 +150,3 @@ export function StaggerItem({ children, className, ...props }: MotionWrapperProp
     </motion.div>
   )
 }
-
