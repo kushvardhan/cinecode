@@ -1,6 +1,7 @@
 // Contact page with form and validation
 'use client'
 import { useState } from 'react'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Metadata } from 'next'
 import { FadeInUp } from '@/components/MotionWrappers'
 
@@ -31,6 +32,7 @@ export default function ContactPage() {
       } else {
         setStatus('error')
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setStatus('error')
     }
@@ -40,7 +42,7 @@ export default function ContactPage() {
     <main className="bg-black text-white min-h-screen">
       <section className="py-32 px-4 md:px-8 max-w-4xl mx-auto">
         <FadeInUp>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) bg-clip-text text-transparent">
             Get in Touch
           </h1>
           <p className="text-xl text-gray-300 text-center mb-16">
@@ -61,7 +63,7 @@ export default function ContactPage() {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-[var(--accent-cyan)] transition-colors"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-(--accent-cyan) transition-colors"
                 />
               </div>
 
@@ -75,7 +77,7 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-[var(--accent-cyan)] transition-colors"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-(--accent-cyan) transition-colors"
                 />
               </div>
             </div>
@@ -90,7 +92,7 @@ export default function ContactPage() {
                   id="company"
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-[var(--accent-cyan)] transition-colors"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-(--accent-cyan) transition-colors"
                 />
               </div>
 
@@ -102,7 +104,7 @@ export default function ContactPage() {
                   id="service"
                   value={formData.service}
                   onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-[var(--accent-cyan)] transition-colors"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-(--accent-cyan) transition-colors"
                 >
                   <option value="">Select a service</option>
                   <option value="web-development">Web Development</option>
@@ -125,14 +127,14 @@ export default function ContactPage() {
                 rows={6}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-[var(--accent-cyan)] transition-colors resize-none"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-(--accent-cyan) transition-colors resize-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full px-10 py-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-10 py-4 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-bold rounded-full hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {status === 'loading' ? 'Sending...' : 'Send Message'}
             </button>

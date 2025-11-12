@@ -37,7 +37,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="py-32 px-4 md:px-8 max-w-5xl mx-auto text-center">
         <FadeInUp>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-[var(--accent-gold)] via-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-(--accent-gold)[var(--accent-cyan)] to-(--accent-purple)lip-text text-transparent">
             About CineCode
           </h1>
           <p className="text-xl text-gray-300 leading-relaxed">
@@ -50,7 +50,7 @@ export default function AboutPage() {
       {/* Story Section */}
       <section className="py-20 px-4 md:px-8 max-w-4xl mx-auto">
         <FadeInUp>
-          <h2 className="text-4xl font-bold mb-6 text-[var(--accent-cyan)]">Our Story</h2>
+          <h2 className="text-4xl font-bold mb-6 text-(--accent-cyan)">Our Story</h2>
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p>
               CineCode was born from a simple belief: digital experiences should be as captivating
@@ -74,7 +74,7 @@ export default function AboutPage() {
       {/* Values Section */}
       <section className="py-20 px-4 md:px-8 max-w-6xl mx-auto">
         <FadeInUp>
-          <h2 className="text-4xl font-bold mb-12 text-center text-[var(--accent-gold)]">
+          <h2 className="text-4xl font-bold mb-12 text-center text-(--accent-gold)">
             Our Values
           </h2>
         </FadeInUp>
@@ -82,7 +82,7 @@ export default function AboutPage() {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {values.map((value) => (
             <StaggerItem key={value.title}>
-              <div className="p-8 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10 hover:border-[var(--accent-cyan)]/50 transition-colors">
+              <div className="p-8 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10 hover:border-(--accent-cyan)/50 transition-colors">
                 <div className="text-5xl mb-4">{value.icon}</div>
                 <h3 className="text-2xl font-bold mb-3 text-white">{value.title}</h3>
                 <p className="text-gray-400">{value.description}</p>
@@ -101,7 +101,7 @@ export default function AboutPage() {
           </p>
           <a
             href="/contact"
-            className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
+            className="inline-block px-10 py-4 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
           >
             Get in Touch
           </a>
