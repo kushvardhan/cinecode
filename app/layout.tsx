@@ -1,4 +1,5 @@
-// Global layout - Server Component with metadata, Lenis wrapper, and theme provider
+// Global layout - Server Component with metadata, Lenis wrapper, theme provider, and GSAP effects
+import GsapEffects from '@/components/GsapEffects'
 import LenisWrapper from '@/components/LenisWrapper'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -19,7 +20,24 @@ export const metadata: Metadata = {
     'GMB',
   ],
   authors: [{ name: 'CineCode' }],
-  viewport: 'width=device-width, initial-scale=1',
+  openGraph: {
+    title: 'CineCode - Cinematic Digital Experiences',
+    description: 'Premium digital agency crafting exceptional web, mobile, and marketing solutions',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://cinecode.com',
+    siteName: 'CineCode',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CineCode - Cinematic Digital Experiences',
+    description: 'Premium digital agency crafting exceptional web, mobile, and marketing solutions',
+  },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
   themeColor: '#0a0a0a',
 }
 
@@ -29,7 +47,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en" className="dark" suppressHydrationWarning>
         <body className="antialiased">
           <ThemeProvider>
-            <LenisWrapper>{children}</LenisWrapper>
+            <LenisWrapper>
+              <GsapEffects />
+              {children}
+            </LenisWrapper>
           </ThemeProvider>
         </body>
       </html>

@@ -68,18 +68,21 @@ export default function Home() {
 
         {/* Services Section */}
         <section id="services" className="py-32 px-4 md:px-8 max-w-7xl mx-auto">
-          <FadeInUp>
-            <div className="text-center mb-16">
-              <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) bg-clip-text text-transparent">
-                What We Do
-              </h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                We craft exceptional digital experiences that blend creativity with cutting-edge
-                technology
-              </p>
-            </div>
-          </FadeInUp>
-          <ServiceGrid services={services} />
+          <div className="text-center mb-16" data-reveal>
+            <h2
+              className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) bg-clip-text text-transparent"
+              data-parallax="0.1"
+            >
+              What We Do
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              We craft exceptional digital experiences that blend creativity with cutting-edge
+              technology
+            </p>
+          </div>
+          <div data-reveal>
+            <ServiceGrid services={services} />
+          </div>
         </section>
 
         {/* Featured Projects Section */}
