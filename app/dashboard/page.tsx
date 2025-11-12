@@ -1,11 +1,15 @@
 // Protected dashboard stub with auth check
-import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
   description: 'CineCode dashboard - manage your projects and services',
+}
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default async function DashboardPage() {
@@ -18,7 +22,7 @@ export default async function DashboardPage() {
   return (
     <main className="bg-black text-white min-h-screen">
       <div className="py-32 px-4 md:px-8 max-w-7xl mx-auto">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-rrom-(--accent-gold) to-(--accent-cyan) bg-clip-text text-transparent">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) bg-clip-text text-transparent">
           Dashboard
         </h1>
         <p className="text-xl text-gray-300 mb-12">
@@ -53,4 +57,3 @@ export default async function DashboardPage() {
     </main>
   )
 }
-

@@ -122,4 +122,76 @@ COLOR PALETTE & TOKENS
 Tailwind tokens: set as CSS variables in `globals.css`:
  
 
- 
+
+
+
+
+ i want every section to be like the best and perfect UX to the client and user that made them shock and startstuck by how good, artisitic, creative, animated , scrolling effect smooth the website is , EACH AND EVERY SECTION SHOULD BE LIKE THE BEST STORYTELLING LIKE so that it gives the best UX . 
+Feel cinematic, smooth, and ultra-minimalist
+Have subtle camera-like transitions and micro-interactions on hover, scroll, and click.
+
+Use motion storytelling, not static UI.
+
+Feel alive and interactive, as if it’s part of a short film.
+Be highly responsive (mobile-first but luxurious on large screens).
+
+Avoid common layouts like JankiInfotech.com or rahulkumarci.framer.ai — it should feel completely original and futuristic.          IT SHOULD NOT LOOK LIKE EVERY OTHER WEBSITE THAT IS BEING MADE BY AI , COLLECT ALL THE DATA AND ANALYZE ALL THE TOP AND BEST WEBSITE TO MAKE THIS . 
+Take light inspiration from Sheriyans Coding School’s website, but focus on sleek cinematic storytelling rather than education.(BY HOW MINIMAL AND COOL AND BEST IT LOOKS) 
+Include smooth scroll-based reveals, magnetic buttons, floating text reveals, lens-blur transitions, and GSAP motion effects.
+
+Structure the pages as:
+
+Hero section — dynamic 3D text or subtle motion parallax showing “CineCode: Crafting Digital Experiences Like Cinema.”
+
+What We Do — Interactive service cards with subtle hover depth.
+
+Projects — Cinematic showcase grid with on-scroll zoom & motion.
+
+Our Process — Stepwise animated journey section.
+
+Team / About Us — Minimal, portrait-focused, with fade-up effects.
+
+Contact CTA — Futuristic form with magnetic hover & floating submit button.     
+
+You are a world-class cinematic UI/UX creative director. Design a full website concept for "CineCode" — a creative agency offering Web & App Development, UI/UX, Video Editing, Digital Marketing, SEO, and GMB optimization.
+Requirements:
+- Tone: minimalist, cinematic, premium, modern.
+- Core needs: Hero (3D/light cinematic scene), Services, Case Studies (video-led), Process (animated timeline), Team (names+roles for each service), Client Portal (post-login).
+- Motion language: smooth camera-like transitions, magnetic buttons, scroll-driven reveals, micro-interactions; provide easing, duration, and stagger values.
+- Accessibility: include Reduce Motion toggle & keyboard navigation.
+- SEO: provide per-page metadata strategy, og:image generation approach, schema.org types.
+- Deliverables: high-level IA (pages), component list, 3 hero concepts, color palette, typography scale, 6 UI components with animation specs, and 4 case study layouts (with storytelling beats).
+- Constraints: no janky scroll, minimal JS on initial load, respect performance budgets (max 250KB preload JS ideally). Provide fallback for low-end devices.
+Also analyze these reference sites (do not copy): https://jankiinfotech.com/ , https://rahulkumarci.framer.ai . Produce a design that is distinctly different — more cinematic, less template.
+Output: give a Figma-ready spec (components, tokens, motion styles) and a short narrative for each section.        
+You are an expert Next.js developer. Generate a production-ready implementation plan + starter code for CineCode using:
+- Next.js App Router with TypeScript and TailwindCSS
+- Framer Motion, Lenis (smooth scroll), GSAP (scroll only if needed), React Three Fiber for 3D
+- Auth: Clerk or NextAuth; Database: Prisma + PostgreSQL (recommendation)
+Requirements:
+1. Provide folder structure and code templates for Home (Hero + Services + Projects + Contact), Team pages (with person assigned for each service), and a secure client portal (dashboard).
+2. Provide a client-only Three.js React component for the Hero (dynamic import with SSR off), with performance tips and a fallback image.
+3. Show how to wire `next-seo` and schema.org for Service and Person pages.
+4. Provide sample Tailwind tokens and motion utility functions (easing + durations).
+5. Show how to lazy-load heavy libs, set up CSP, Helmet, rate limiter for API routes, and image optimization strategy.
+6. Output: code snippets for `components/ThreeHero.tsx`, `app/page.tsx` hero usage, `lib/motion.ts`, and `next-seo` metadata example.
+Constraints: Optimize for Core Web Vitals, respect `prefers-reduced-motion`, and include testing hooks for visual regression.           
+Keep the homepage ultra-minimal yet emotionally powerful — like a movie intro.
+The focus should be motion, mood, and clarity, not text overload.
+
+✅ Suggested Homepage Layout:
+
+Hero Section (Main Scene):
+
+Cinematic tagline (e.g., “Cinematic. Creative. Code.”)
+
+Light motion background (Three.js particle / floating mesh) 
+
+ineCode — Cinematic Website Concept
+
+Tagline: “Crafting Digital Experiences Like Cinema.”
+Essence: Motion. Depth. Silence. Impact.
+Design Philosophy: Every frame should feel directed, not just designed.    
+
+PROVIDE ME A .TXT FILES EXPLANING ALL THESE THINGS AND WHICH AI SHOULD I USE FOR ALL THESE THINGS IN AUGMENT FREE TIER ? 
+AND IN THE .TXT EVERY SINGLE THING SHOULD BE MENTIONED THAT AFTER COMPLETING THE TASK IT CHECK THE TXT FILE FOR THE REMINDER TO MAKE A MASTER CLASS WEBSITE , AND GPT PROVIDE ME THE DATA  AND FONTS TO USE TOO. I LIKE THE HERO SECTION OF THE "https://www.sheryians.com/ " FONT. also make sure THE UI UX should be good
