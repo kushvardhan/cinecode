@@ -1,7 +1,7 @@
 // Contact page with form and validation
 'use client'
 import { useState } from 'react'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 import { FadeInUp } from '@/components/MotionWrappers'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'

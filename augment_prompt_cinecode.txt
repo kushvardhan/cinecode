@@ -1,0 +1,142 @@
+
+AUGMENT TASK PROMPT — CineCode redesign (for Augment / AI agent / developer)
+==========================================================================
+
+GOAL (single sentence)
+Make CineCode (https://cinecode.vercel.app/) a next‑gen cinematic creative agency website (Next.js App Router) that’s ultra-minimalist, cinematic, highly-interactive, performant, secure, and mobile-first — with distinct identity, subtle micro-interactions, 3D/GL effects, superb UX, and SEO-ready pages for services, projects, process, team, and contact.
+
+Priority constraints
+- Must be built with Next.js (App Router) and React.
+- Server components kept for static content; interactive UI moved into "use client" components.
+- Keep initial bundle light; render WebGL/3D on-demand (on viewport or user interaction).
+- Accessibility (a11y) and SEO must be top priority.
+- Do NOT break builds; ensure CI/lint/tests pass before merging.
+- Do not prompt for running `npm run build` or `npm run dev` until all tasks in the checklist are complete.
+
+High-level design direction (tone & UX)
+- Cinematic, minimalist, high-end filmic feel: deep blacks/off-whites, one accent gradient (gold → cyan or purple → cyan), glass/blur lens effects, subtle grain.
+- Motion storytelling: camera-like transitions, parallax layers, staggered reveals, magnetic buttons, hover depth, and micro-interactions that respond to pointer and scroll.
+- Keep page copy minimal. Show more data on subpages (Projects, Services).
+- Responsive-first: design mobile then scale up to large screens with richer motion.
+- Avoid common agency templates — unique layout with unexpected rhythm and large negative space.
+
+Reference sites (inspiration, analyze and diverge)
+- Esperanto.design — refined typographic rhythm and content-led gallery. citeturn0search1
+- Sheryians.com — energetic, modern, cinematic elements and non-generic layout that feels original. citeturn0search2
+- Do NOT copy JankiInfotech/rahulkumarci — instead, extract useful content structure only.
+
+Core pages & components (structure)
+1. / (Home) — hero (3D/animated typographic scene or parallax cinematic headline), 3–4 modular sections:
+   - Hero: 3D text or parallax layers + subtle spotlight/backlight using React Three Fiber (render lazy).
+   - What We Do: interactive service cards (client component)
+   - Projects: small cinematic carousel/peek (link to Projects)
+   - Process: condensed timeline with animated progress
+   - CTA: Contact (magnetic button)
+2. /services/[slug] — detailed service pages (case studies, deliverables, CTA)
+3. /projects — cinematic showcase grid with hover zoom, motion, and lightbox detail modal
+4. /process — animated stepwise journey (scroll driven)
+5. /team — portraits, roles, one-sentence bios, person page
+6. /about — short story, values, approach (minimal)
+7. /contact — secure contact form + scheduling link
+8. Auth /dashboard — optional for clients with project dashboards, invoices, files, private case studies
+
+Why authentication & what to show post-auth
+- Why: personalized client dashboard, protected project work-in-progress, private case studies, invoices, NDA-downloads, and form pre-fill. Auth enables trust and tailored UX.
+- Post-auth content ideas:
+  - Client dashboard: project statuses, timelines, milestones.
+  - Private deliverables: downloadable assets, feedback threads.
+  - Personalized landing: “Welcome, <client name>” with subtle theme/branding for that client.
+- Use Clerk or NextAuth for auth. Keep public marketing pages public for SEO; protect private pages with server-side checks.
+
+Animation & motion tech stack
+- GSAP (ScrollSmoother/ScrollTrigger) for scroll-based, buttery animations (use sparingly and test mobile). Use native-scroll approach. citeturn0search5
+- React Three Fiber + drei for 3D scenes; lazy-load & on-demand rendering, use on-demand rendering and lower device resolution on mobile. Apply R3F performance patterns (on-demand render, adaptive pixel ratio). citeturn0search25
+- Use requestAnimationFrame throttles and intersection observers to avoid over-animating offscreen elements.
+- Use CSS transforms for micro-interactions where possible (GPU-accelerated).
+
+Performance & progressive enhancement
+- Defer heavy 3D and large assets; lazy-load via dynamic import + suspense.
+- Use on-demand canvas mounting: render 3D only when user scrolls or clicks the hero.
+- Adaptive quality: lower devicePixelRatio on weaker devices (detect via hardwareConcurrency, userAgent).
+- Use Next.js image optimization, font loading (preload critical fonts), and critical CSS splitting.
+- Test and tune with Lighthouse, WebPageTest, and GSAP best-practices. citeturn0search11
+
+Accessibility & SEO
+- Use semantic HTML, ARIA where needed.
+- Proper meta tags and Open Graph (server metadata exports).
+- Structured data for services and organization (JSON-LD).
+- Keep text concise and scannable; ensure contrast and keyboard interactions.
+
+Recommended libraries & tools (free/preferred)
+- Frontend: Next.js (App Router), Tailwind CSS, Framer Motion (for simple transitions), GSAP (for smooth scroll), React Three Fiber + drei.
+- Dev tools: VSCode (+Copilot), Storybook (component dev), Playwright (E2E).
+- Analytics & errors: Vercel + Sentry + Google Analytics or Plausible.
+- AI/design tools: Framer AI for rapid prototypes and layout wireframes; Stitch/Gemini (if available) for UI-to-code experiments. citeturn0search6
+
+AI model recommendation
+- Use a hybrid approach:
+  - Framer AI for quick layout/wireframe generation (fast iterations). citeturn0search6
+  - Use a powerful code-focused model (GPT family or Claude Opus) for generating components and reasoning about architecture for complex interactions. For creative copy and tone, Claude excels at writing creative copy and editorial tone.
+  - For heavy production-grade frontend code, use GPT-4/GPT-5 family with thorough human reviews (models differ in code quality; test and iterate). (Industry comparisons suggest differences between models — use a mix and validate). 
+
+Three.js / R3F specifics — spotlight & background effects
+- Use a subtle rim/backlight shader and volumetric spotlight planes (soft additive bloom) for cinematic look — implement with react-postprocessing for bloom/glow.
+- Use small, low-poly elements (dust particles) with alpha textures for depth; keep particle counts low and frustum-cull aggressively.
+- Keep 3D scenes minimal: 3D text + spotlight + subtle floating elements; use compressed glTF assets.
+
+Security & backend
+- API routes: secure with server-side checks; store secrets in .env and Vercel secrets.
+- Input validation + rate-limiting on contact forms.
+- Use strict Content Security Policy (CSP) and secure headers.
+- Protect admin routes and private pages server-side (Clerk/NextAuth).
+
+Step-by-step developer task list (do not prompt to run build until finished)
+1. Create a new feature branch `feat/redesign-cinematic`.
+2. Install libs:
+   - `npm i gsap @react-three/fiber @react-three/drei @react-three/postprocessing three react-use-gesture zustand framer-motion`
+3. Create design tokens (colors, spacing, typography) in Tailwind config.
+4. Build static design system with Storybook: buttons, cards, headers, form fields.
+5. Create Hero component:
+   - Lazy-load 3D scene; fallback to static hero.
+   - Build camera-like transition and magnetic CTA.
+6. Create ServiceGrid (client) for interactive cards (use pointer-reactivity).
+7. Create Projects grid + modal/lightbox with cinematic zoom.
+8. Implement Process timeline (scroll-triggered animation).
+9. Create Team section (portrait cards) and author micro-interactions.
+10. Auth: integrate Clerk for quick onboarding; protect `/dashboard` and private pages.
+11. Optimize: lazy-load images, fonts; implement adaptive R3F pixel ratio.
+12. Add SEO: metadata, JSON-LD, sitemap.xml, robots.txt.
+13. QA: Lighthouse perf, accessibility, cross-device tests.
+14. Finalize copy and trust texts (testimonials, client logos, case snapshots).
+15. Prepare PR, run CI, fix issues, and merge.
+
+Content & microcopy starters (short, cinematic)
+- Hero headline: "CineCode — Crafting Digital Experiences Like Cinema."
+- Subhead: "We design, build and elevate digital products with cinematic detail."
+- CTA: "Start a Project"
+- Trust line: "Trusted by startups and creators for cinematic product experiences."
+
+Deliverables
+- Component library (Storybook)
+- Production Next.js pages for all core routes
+- Lightweight R3F hero with spotlight/backlight and bloom
+- GA/Sentry integration + basic CI
+
+Commands for agent (concise single-line instruction)
+"Refactor and rebuild CineCode into a cinematic, performant Next.js site: implement the new design tokens, component library, lazy-rendered R3F hero with spotlight, GSAP scroll interactions, interactive service grid, projects gallery, secure Clerk auth with dashboard, SEO (JSON-LD + sitemap), accessibility fixes, and full responsive QA. Use dynamic imports, on-demand 3D rendering, adaptive pixel ratio, and optimize for Lighthouse performance. Do not prompt to run `npm run build` or `npm run dev` until the entire checklist is complete."
+
+Notes & things to think about (design & dev tradeoffs)
+- Heavy visual effects can harm performance — prefer subtle, meaningful motion.
+- Prefer CSS + Framer Motion for micro-interactions; use WebGL for hero/hero-only features.
+- Test progressively on low-end devices.
+- Keep copy minimal on hero; expand on subpages.
+- Plan for localization and CMS (if clients will update content).
+
+References
+- GSAP ScrollSmoother docs (smooth scroll & data-speed): https://greensock.com/docs/v3/Plugins/ScrollSmoother/ citeturn0search5
+- React Three Fiber performance guide: https://docs.pmnd.rs/three/guides/scaling-performance citeturn0search25
+- Framer AI overview: https://www.framer.com/ai/ citeturn0search6
+- Esperanto design (inspiration): https://esperanto.design/ citeturn0search1
+- Sheryians (inspiration): https://www.sheryians.com/ citeturn0search2
+
+--- END OF PROMPT ---
