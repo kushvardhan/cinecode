@@ -7,7 +7,7 @@ type MongooseCache = {
 
 declare global {
   // Allow global caching without type conflicts
-  // eslint-disable-next-line no-var
+   
   var _mongoose: MongooseCache | undefined
 }
 

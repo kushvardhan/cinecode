@@ -1,5 +1,5 @@
 // Motion tokens with proper TypeScript types and prefers-reduced-motion utilities
-import type { Transition, Variant } from 'framer-motion'
+import type { Transition } from 'framer-motion'
 
 export const motionTokens = {
   ease: {
@@ -23,28 +23,28 @@ export const getTransition = (
   return { duration, ease: easeName }
 }
 
-// Common animation variants
-export const fadeInUp: { hidden: Variant; visible: Variant } = {
+// Common animation variants - using plain objects compatible with Framer Motion
+export const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
 }
 
-export const fadeIn: { hidden: Variant; visible: Variant } = {
+export const fadeIn = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
 }
 
-export const scaleIn: { hidden: Variant; visible: Variant } = {
+export const scaleIn = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { opacity: 1, scale: 1 },
 }
 
-export const slideInLeft: { hidden: Variant; visible: Variant } = {
+export const slideInLeft = {
   hidden: { opacity: 0, x: -50 },
   visible: { opacity: 1, x: 0 },
 }
 
-export const slideInRight: { hidden: Variant; visible: Variant } = {
+export const slideInRight = {
   hidden: { opacity: 0, x: 50 },
   visible: { opacity: 1, x: 0 },
 }

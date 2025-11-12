@@ -22,7 +22,7 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
         <FadeInUp>
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) bg-clip-text text-transparent">
             Our Services
           </h2>
           <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
@@ -45,9 +45,9 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 px-4 md:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
+      <section className="py-20 px-4 md:px-8 bg-linear-to-b from-black via-gray-900 to-black">
         <FadeInUp>
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-linear-to-r from-(--accent-cyan) to-(--accent-purple) bg-clip-text text-transparent">
             Our Process
           </h2>
           <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
@@ -66,7 +66,7 @@ export default function Home() {
           </p>
           <a
             href="/contact"
-            className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
+            className="inline-block px-10 py-4 bg-linear-to-rrom-[var(--accent-gold)] to-(--accent-cyan)t-bold rounded-full hover:scale-105 transition-transform duration-300"
           >
             Get in Touch
           </a>
