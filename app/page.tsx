@@ -1,21 +1,76 @@
-import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion'
-import { motionTokens } from '@/lib/motion'
-const ThreeHero = dynamic(() => import('@/components/ThreeHero'), { ssr: false, loading: () => <div className="h-[60vh] bg-black" /> })
+// Server Component homepage importing HeroWrapper
+import HeroWrapper from '@/components/HeroWrapper'
+import { FadeInUp, StaggerContainer, StaggerItem } from '@/components/MotionWrappers'
+import { DefaultProcessTimeline } from '@/components/ProcessTimeline'
+import ServiceCard from '@/components/ServiceCard'
 
 export default function Home() {
+  const services = [
+    { icon: '🌐', title: 'Web Development', slug: 'web-development' },
+    { icon: '📱', title: 'App Development', slug: 'app-development' },
+    { icon: '🎨', title: 'UI/UX Design', slug: 'ui-ux-design' },
+    { icon: '🎬', title: 'Video Editing', slug: 'video-editing' },
+    { icon: '📈', title: 'Digital Marketing', slug: 'digital-marketing' },
+    { icon: '🔍', title: 'SEO & GMB', slug: 'seo-gmb' },
+  ]
+
   return (
     <main className="bg-black text-white min-h-screen">
-      <section className="relative">
-        <ThreeHero />
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0, transition: { duration: motionTokens.duration.long, ease: motionTokens.ease.cinematic } }}>
-            <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-[#FFD700] to-[#00FFC8] bg-clip-text text-transparent">
-              CineCode
-            </h1>
-            <p className="mt-3 text-sm font-light">Crafting Digital Experiences Like Cinema</p>
-          </motion.div>
-        </div>
+      {/* Hero Section */}
+      <HeroWrapper />
+
+      {/* Services Section */}
+      <section id="services" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+        <FadeInUp>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
+            Our Services
+          </h2>
+          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+            We craft exceptional digital experiences that blend creativity with cutting-edge
+            technology
+          </p>
+        </FadeInUp>
+
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service) => (
+            <StaggerItem key={service.slug}>
+              <ServiceCard
+                icon={<span className="text-4xl">{service.icon}</span>}
+                title={service.title}
+                onClick={() => (window.location.href = `/services/${service.slug}`)}
+              />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </section>
+
+      {/* Process Section */}
+      <section className="py-20 px-4 md:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
+        <FadeInUp>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+            Our Process
+          </h2>
+          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+            A proven methodology that delivers exceptional results
+          </p>
+        </FadeInUp>
+        <DefaultProcessTimeline />
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 md:px-8 text-center">
+        <FadeInUp>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Start Your Project?</h2>
+          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            Let&apos;s create something extraordinary together
+          </p>
+          <a
+            href="/contact"
+            className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
+          >
+            Get in Touch
+          </a>
+        </FadeInUp>
       </section>
     </main>
   )
