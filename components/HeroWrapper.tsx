@@ -1,8 +1,8 @@
 // Client-only wrapper that dynamically imports ThreeHero with HeroLite fallback
 'use client'
-import dynamic from 'next/dynamic'
+import { fadeIn, fadeInUp, motionTokens } from '@/lib/motion'
 import { motion, useReducedMotion } from 'framer-motion'
-import { motionTokens, fadeInUp, fadeIn } from '@/lib/motion'
+import dynamic from 'next/dynamic'
 import HeroLite from './HeroLite'
 
 // Dynamic import of ThreeHero with ssr:false (client-only)
@@ -49,7 +49,7 @@ export default function HeroWrapper({
           }}
           className="pointer-events-auto"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-4 bg-linear-to-r from-[var(--accent-gold)] via-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-4 bg-linear-to-r from-(--accent-gold) via-(--accent-cyan) to-(--accent-purple) bg-clip-text text-transparent">
             {title}
           </h1>
         </motion.div>
@@ -79,7 +79,7 @@ export default function HeroWrapper({
         >
           <a
             href={ctaPrimary.href}
-            className="px-8 py-3 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-semibold rounded-full hover:scale-105 transition-transform duration-300"
+            className="px-8 py-3 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-semibold rounded-full hover:scale-105 transition-transform duration-300"
           >
             {ctaPrimary.text}
           </a>
@@ -113,4 +113,3 @@ export default function HeroWrapper({
     </section>
   )
 }
-

@@ -1,7 +1,7 @@
 // Animated timeline component with scroll-triggered animations
 'use client'
-import { motion, useReducedMotion } from 'framer-motion'
 import { slideInLeft, slideInRight } from '@/lib/motion'
+import { motion, useReducedMotion } from 'framer-motion'
 
 interface TimelineStep {
   number: string
@@ -20,7 +20,7 @@ export default function ProcessTimeline({ steps }: ProcessTimelineProps) {
   return (
     <div className="relative max-w-4xl mx-auto py-12">
       {/* Vertical Line */}
-      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--accent-gold)] via-[var(--accent-cyan)] to-[var(--accent-purple)]" />
+      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-(--accent-gold) via-(--accent-cyan) to-(--accent-purple)" />
 
       {/* Timeline Steps */}
       <div className="space-y-16">
@@ -31,17 +31,15 @@ export default function ProcessTimeline({ steps }: ProcessTimelineProps) {
           return (
             <motion.div
               key={step.number}
-              initial={prefersReducedMotion ? false : variant.hidden}
-              whileInView={prefersReducedMotion ? false : variant.visible}
+              initial={prefersReducedMotion ? undefined : variant.hidden}
+              whileInView={prefersReducedMotion ? undefined : variant.visible}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.6, ease: 'easeInOut', delay: index * 0.1 }}
-              className={`relative flex items-center ${
-                isEven ? 'flex-row' : 'flex-row-reverse'
-              }`}
+              className={`relative flex items-center ${isEven ? 'flex-row' : 'flex-row-reverse'}`}
             >
               {/* Content */}
               <div className={`w-5/12 ${isEven ? 'text-right pr-8' : 'text-left pl-8'}`}>
-                <div className="inline-block px-4 py-2 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full mb-3">
+                <div className="inline-block px-4 py-2 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-bold rounded-full mb-3">
                   {step.number}
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">{step.title}</h3>
@@ -49,7 +47,7 @@ export default function ProcessTimeline({ steps }: ProcessTimelineProps) {
               </div>
 
               {/* Center Circle */}
-              <div className="absolute left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-[var(--accent-gold)] to-[var(--accent-cyan)] flex items-center justify-center shadow-lg">
+              <div className="absolute left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-linear-to-br from-(--accent-gold) to-(--accent-cyan) flex items-center justify-center shadow-lg">
                 {step.icon || (
                   <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center">
                     <div className="w-3 h-3 rounded-full bg-white" />
@@ -104,4 +102,3 @@ export function DefaultProcessTimeline() {
 
   return <ProcessTimeline steps={defaultSteps} />
 }
-

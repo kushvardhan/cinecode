@@ -1,9 +1,9 @@
 // Non-3D fallback hero with poster image and framer-motion animations
 'use client'
+import { fadeIn, fadeInUp, motionTokens } from '@/lib/motion'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useState } from 'react'
-import { motionTokens, fadeInUp, fadeIn } from '@/lib/motion'
 
 interface HeroLiteProps {
   poster?: string
@@ -40,27 +40,27 @@ export default function HeroLite({
           className="object-cover opacity-40"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/50 via-transparent to-black/80" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
         <motion.div
-          initial={prefersReducedMotion ? false : fadeInUp.hidden}
-          animate={prefersReducedMotion ? false : fadeInUp.visible}
+          initial={prefersReducedMotion ? undefined : fadeInUp.hidden}
+          animate={prefersReducedMotion ? undefined : fadeInUp.visible}
           transition={{
             duration: motionTokens.duration.long,
             ease: 'easeInOut',
           }}
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-4 bg-gradient-to-r from-[var(--accent-gold)] via-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-4 bg-linear-to-r from-(--accent-gold) via-(--accent-cyan) to-(--accent-purple) bg-clip-text text-transparent">
             {title}
           </h1>
         </motion.div>
 
         <motion.p
-          initial={prefersReducedMotion ? false : fadeIn.hidden}
-          animate={prefersReducedMotion ? false : fadeIn.visible}
+          initial={prefersReducedMotion ? undefined : fadeIn.hidden}
+          animate={prefersReducedMotion ? undefined : fadeIn.visible}
           transition={{
             duration: motionTokens.duration.medium,
             ease: 'easeInOut',
@@ -72,8 +72,8 @@ export default function HeroLite({
         </motion.p>
 
         <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
+          animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{
             duration: motionTokens.duration.medium,
             ease: 'easeInOut',
@@ -83,7 +83,7 @@ export default function HeroLite({
         >
           <a
             href="#services"
-            className="px-8 py-3 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-semibold rounded-full hover:scale-105 transition-transform duration-300"
+            className="px-8 py-3 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-semibold rounded-full hover:scale-105 transition-transform duration-300"
           >
             Explore Services
           </a>
@@ -99,8 +99,8 @@ export default function HeroLite({
       {/* Theme Toggle */}
       {showThemeToggle && (
         <motion.button
-          initial={prefersReducedMotion ? false : { opacity: 0 }}
-          animate={prefersReducedMotion ? false : { opacity: 1 }}
+          initial={prefersReducedMotion ? undefined : { opacity: 0 }}
+          animate={prefersReducedMotion ? undefined : { opacity: 1 }}
           transition={{ delay: 0.6 }}
           onClick={toggleTheme}
           className="absolute top-6 right-6 z-20 p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
@@ -124,13 +124,13 @@ export default function HeroLite({
 
       {/* Scroll Indicator */}
       <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
-        animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+        initial={prefersReducedMotion ? undefined : { opacity: 0, y: -10 }}
+        animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
         transition={{
           duration: motionTokens.duration.medium,
           ease: 'easeInOut',
           delay: 0.8,
-          repeat: Infinity,
+          repeat: prefersReducedMotion ? 0 : Infinity,
           repeatType: 'reverse',
           repeatDelay: 0.5,
         }}
@@ -143,4 +143,3 @@ export default function HeroLite({
     </section>
   )
 }
-

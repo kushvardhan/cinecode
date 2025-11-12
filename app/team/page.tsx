@@ -56,7 +56,7 @@ export default function TeamPage() {
     <main className="bg-black text-white min-h-screen">
       <section className="py-32 px-4 md:px-8 max-w-6xl mx-auto">
         <FadeInUp>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center bg-gradient-to-r from-[var(--accent-gold)] via-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center bg-linear-to-r from-(--accent-gold) via-(--accent-cyan) to-(--accent-purple) bg-clip-text text-transparent">
             Meet Our Team
           </h1>
           <p className="text-xl text-gray-300 text-center mb-16 max-w-3xl mx-auto">
@@ -87,7 +87,7 @@ export default function TeamPage() {
             </p>
             <a
               href="/contact"
-              className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
+              className="inline-block px-10 py-4 bg-linear-to-rrom-[var(--accent-gold)] to-(--accent-cyan) text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
             >
               Get in Touch
             </a>
