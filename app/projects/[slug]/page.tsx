@@ -65,11 +65,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <section className="py-32 px-4 md:px-8 max-w-5xl mx-auto">
         <FadeInUp>
           <div className="mb-6">
-            <span className="px-4 py-2 bg-[var(--accent-gold)]/20 text-[var(--accent-gold)] rounded-full text-sm font-semibold">
+            <span className="px-4 py-2 bg-(--accent-gold)/20 text-(--accent-gold) rounded-full text-sm font-semibold">
               {project.category}
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan)lip-text text-transparent">
             {project.title}
           </h1>
           <p className="text-xl text-gray-300 mb-8">{project.description}</p>
@@ -97,21 +97,21 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         <div className="space-y-12">
           <FadeInUp delay={0.3}>
-            <h2 className="text-3xl font-bold mb-4 text-[var(--accent-cyan)]">The Challenge</h2>
+            <h2 className="text-3xl font-bold mb-4 text-(--accent-cyan)">The Challenge</h2>
             <p className="text-gray-300 leading-relaxed">{project.challenge}</p>
           </FadeInUp>
 
           <FadeInUp delay={0.4}>
-            <h2 className="text-3xl font-bold mb-4 text-[var(--accent-purple)]">Our Solution</h2>
+            <h2 className="text-3xl font-bold mb-4 text-(--accent-purple)">Our Solution</h2>
             <p className="text-gray-300 leading-relaxed">{project.solution}</p>
           </FadeInUp>
 
           <FadeInUp delay={0.5}>
-            <h2 className="text-3xl font-bold mb-4 text-[var(--accent-gold)]">Results</h2>
+            <h2 className="text-3xl font-bold mb-4 text-(--accent-gold)">Results</h2>
             <ul className="space-y-3">
               {project.results.map((result) => (
                 <li key={result} className="flex items-start gap-3">
-                  <span className="text-[var(--accent-gold)] mt-1">✓</span>
+                  <span className="text-(--accent-gold) mt-1">✓</span>
                   <span className="text-gray-300">{result}</span>
                 </li>
               ))}
@@ -136,7 +136,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <div className="mt-16 text-center">
             <a
               href="/contact"
-              className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
+              className="inline-block px-10 py-4 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
             >
               Start Your Project
             </a>

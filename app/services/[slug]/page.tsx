@@ -115,7 +115,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <section className="py-32 px-4 md:px-8 max-w-5xl mx-auto">
         <FadeInUp>
           <div className="text-6xl mb-6 text-center">{service.icon}</div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center bg-linear-to-rrom-[var(--accent-gold)] to-(--accent-cyan) bg-clip-text text-transparent">
             {service.title}
           </h1>
           <p className="text-xl text-gray-300 text-center mb-12">{service.description}</p>
@@ -123,11 +123,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
         <div className="grid md:grid-cols-2 gap-12 mt-16">
           <FadeInUp delay={0.2}>
-            <h2 className="text-3xl font-bold mb-6 text-[var(--accent-cyan)]">Features</h2>
+            <h2 className="text-3xl font-bold mb-6 text-(--accent-cyan)">Features</h2>
             <ul className="space-y-3">
               {service.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-3">
-                  <span className="text-[var(--accent-gold)] mt-1">✓</span>
+                  <span className="text-(--accent-gold) mt-1">✓</span>
                   <span className="text-gray-300">{feature}</span>
                 </li>
               ))}
@@ -135,7 +135,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           </FadeInUp>
 
           <FadeInUp delay={0.4}>
-            <h2 className="text-3xl font-bold mb-6 text-[var(--accent-purple)]">Technologies</h2>
+            <h2 className="text-3xl font-bold mb-6 text-(--accent-purple)">Technologies</h2>
             <div className="flex flex-wrap gap-3">
               {service.technologies.map((tech) => (
                 <span
@@ -153,7 +153,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           <div className="mt-16 text-center">
             <a
               href="/contact"
-              className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-cyan)] text-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
+              className="inline-block px-10 py-4 bg-linear-to-r from-(--accent-gold) to-[vto-(--accent-cyan)-black font-bold rounded-full hover:scale-105 transition-transform duration-300"
             >
               Get Started
             </a>
