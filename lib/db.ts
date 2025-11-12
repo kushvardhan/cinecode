@@ -1,48 +1,40 @@
-// Cached MongoDB connection utility using Mongoose
-import mongoose from 'mongoose'
+import mongoose, { Mongoose } from 'mongoose'
+
+type MongooseCache = {
+  conn: Mongoose | null
+  promise: Promise<Mongoose> | null
+}
 
 declare global {
+  // Allow global caching without type conflicts
   // eslint-disable-next-line no-var
-  var mongoose: {
-    conn: typeof mongoose | null
-    promise: Promise<typeof mongoose> | null
-  }
+  var _mongoose: MongooseCache | undefined
 }
 
-let cached = global.mongoose
+const cached: MongooseCache = global._mongoose ?? { conn: null, promise: null }
+global._mongoose = cached
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
-}
-
-export async function connectDB() {
-  if (cached.conn) {
-    return cached.conn
-  }
+export async function connectDB(): Promise<Mongoose> {
+  // If already connected, return existing connection
+  if (cached.conn) return cached.conn
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    }
-
     const MONGODB_URI = process.env.MONGODB_URI
-
     if (!MONGODB_URI) {
-      throw new Error('Please define the MONGODB_URI environment variable inside .env.local')
+      throw new Error('⚠️ Please define the MONGODB_URI in .env.local')
     }
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose
-    })
+    const opts = { bufferCommands: false }
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts)
   }
 
   try {
     cached.conn = await cached.promise
-  } catch (e) {
+  } catch (err) {
     cached.promise = null
-    throw e
+    throw err
   }
 
   return cached.conn
 }
-

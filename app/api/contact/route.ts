@@ -1,10 +1,10 @@
-// POST route with zod validation, xss-clean, and rate limiting
 import { connectDB } from '@/lib/db'
+import { Contact } from '@/models/Contact'
 import { NextRequest, NextResponse } from 'next/server'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 import { z } from 'zod'
 
-// Zod schema for contact form validation
+// ✅ Zod schema for validation
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(100),
   email: z.string().email('Invalid email address'),
@@ -13,13 +13,13 @@ const contactSchema = z.object({
   message: z.string().min(10, 'Message must be at least 10 characters').max(1000),
 })
 
-// Rate limiter: 5 requests per 15 minutes per IP
+// ✅ Rate limiting setup (5 requests / 15 min per IP)
 const rateLimiter = new RateLimiterMemory({
   points: 5,
-  duration: 15 * 60, // 15 minutes
+  duration: 15 * 60,
 })
 
-// Simple XSS sanitization
+// ✅ Simple XSS sanitization
 function sanitizeInput(input: string): string {
   return input
     .replace(/</g, '&lt;')
@@ -29,67 +29,49 @@ function sanitizeInput(input: string): string {
     .replace(/\//g, '&#x2F;')
 }
 
+// ✅ POST handler
 export async function POST(request: NextRequest) {
   try {
-    // Get client IP for rate limiting
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
+    const ip =
+      request.headers.get('x-forwarded-for') ||
+      request.headers.get('x-real-ip') ||
+      'unknown'
 
-    // Check rate limit
+    // ⛔ Apply rate limiter
     try {
       await rateLimiter.consume(ip)
-    } catch (rateLimiterRes) {
+    } catch {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
         { status: 429 }
       )
     }
 
-    // Parse and validate request body
+    // ✅ Parse and validate body
     const body = await request.json()
-    const validatedData = contactSchema.parse(body)
+    const validated = contactSchema.parse(body)
 
-    // Sanitize inputs
+    // ✅ Sanitize
     const sanitizedData = {
-      name: sanitizeInput(validatedData.name),
-      email: sanitizeInput(validatedData.email),
-      company: validatedData.company ? sanitizeInput(validatedData.company) : '',
-      service: validatedData.service ? sanitizeInput(validatedData.service) : '',
-      message: sanitizeInput(validatedData.message),
+      name: sanitizeInput(validated.name),
+      email: sanitizeInput(validated.email),
+      company: validated.company ? sanitizeInput(validated.company) : '',
+      service: validated.service ? sanitizeInput(validated.service) : '',
+      message: sanitizeInput(validated.message),
+      ip,
     }
 
-    // Connect to database
+    // ✅ Connect to DB and save
     await connectDB()
-
-    // TODO: Save to database
-    // Example:
-    // const contact = await Contact.create({
-    //   ...sanitizedData,
-    //   ip,
-    //   createdAt: new Date(),
-    // })
-
-    // TODO: Send email notification
-    // Example:
-    // await sendEmail({
-    //   to: 'hello@cinecode.com',
-    //   subject: `New contact form submission from ${sanitizedData.name}`,
-    //   body: `
-    //     Name: ${sanitizedData.name}
-    //     Email: ${sanitizedData.email}
-    //     Company: ${sanitizedData.company}
-    //     Service: ${sanitizedData.service}
-    //     Message: ${sanitizedData.message}
-    //   `,
-    // })
-
-    // Log for now (replace with actual DB save)
-    console.log('Contact form submission:', sanitizedData)
+    const contact = await Contact.create(sanitizedData)
 
     return NextResponse.json(
-      { message: 'Message sent successfully', data: sanitizedData },
+      { message: 'Message sent successfully', data: contact },
       { status: 200 }
     )
   } catch (error) {
+    console.error('❌ Contact form error:', error)
+
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Validation error', details: error.issues },
@@ -97,7 +79,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.error('Contact form error:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -105,8 +86,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// OPTIONS for CORS preflight
+// ✅ CORS preflight support
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200 })
 }
-
