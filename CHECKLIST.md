@@ -10,8 +10,13 @@ CHECKLIST (copy this to repo root as CHECKLIST.md or mark in this file)
 [x] SEO (next-seo) + OG image generation approach
 [x] Performance audit passed (bundle < 250 KB initial)
 [x] Accessibility checks passed
-[ ] Visual snapshot tests added (Playwright tests created, can be extended)
+[x] Visual snapshot tests added (Playwright tests created, can be extended)
 [x] Vercel deploy configured (README.md has deployment instructions)
+[x] All TypeScript errors fixed
+[x] All Framer Motion type errors resolved
+[x] Tailwind v4 syntax applied throughout
+[x] Security audit completed
+[x] Error handling audit completed
 
 FONTS & WHERE TO GET THEM
 
