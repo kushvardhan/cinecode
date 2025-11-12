@@ -1,36 +1,185 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CineCode - Cinematic Digital Experiences
 
-## Getting Started
+A premium digital agency website built with Next.js 16, featuring stunning 3D animations, smooth scrolling, and a cinematic user experience.
 
-First, run the development server:
+## 🚀 Features
 
+- **Next.js 16 App Router** with TypeScript
+- **React Three Fiber** for 3D hero animations
+- **Framer Motion** for smooth, cinematic animations
+- **Lenis** for buttery-smooth scrolling
+- **Tailwind CSS v4** for styling
+- **Dark/Light Theme** with system preference detection
+- **Fully Responsive** - mobile-first design
+- **Accessibility** - respects `prefers-reduced-motion`
+- **Performance Optimized** - lazy loading, dynamic imports
+- **SEO Ready** - metadata, structured data
+- **Clerk Authentication** - ready for user management
+- **Prisma + MongoDB** - database integration
+- **API Routes** - with validation and rate limiting
+- **Playwright Tests** - E2E testing setup
+
+## 📦 Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **3D Graphics**: React Three Fiber, Three.js
+- **Animations**: Framer Motion, GSAP
+- **Smooth Scroll**: Lenis
+- **Authentication**: Clerk
+- **Database**: Prisma (PostgreSQL) + Mongoose (MongoDB)
+- **Validation**: Zod
+- **Testing**: Playwright
+- **Deployment**: Vercel
+
+## 🛠️ Setup
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- PostgreSQL database (for Prisma)
+- MongoDB database (for Mongoose)
+
+### Installation
+
+1. **Clone the repository**
+
+2. **Install dependencies**:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Set up environment variables**:
+```bash
+cp .env.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Edit `.env.local` and add your credentials:
+- Database URLs (PostgreSQL and MongoDB)
+- Clerk API keys (sign up at https://clerk.com)
+- Other optional services
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Set up Prisma**:
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-## Learn More
+5. **Run the development server**:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+cinecode/
+├── app/                    # Next.js App Router pages
+│   ├── about/             # About page
+│   ├── api/               # API routes
+│   ├── contact/           # Contact page
+│   ├── dashboard/         # Protected dashboard
+│   ├── projects/          # Dynamic project pages
+│   ├── services/          # Dynamic service pages
+│   ├── team/              # Team page
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Homepage
+├── components/            # React components
+│   ├── HeroWrapper.tsx    # Hero with 3D/fallback
+│   ├── HeroLite.tsx       # Non-3D hero
+│   ├── ThreeHero.tsx      # 3D hero scene
+│   ├── MotionWrappers.tsx # Animation wrappers
+│   ├── ProcessTimeline.tsx
+│   ├── ProjectCard.tsx
+│   ├── ServiceCard.tsx
+│   ├── TeamCard.tsx
+│   ├── LenisWrapper.tsx   # Smooth scroll
+│   └── ThemeProvider.tsx  # Theme management
+├── lib/                   # Utilities
+│   ├── auth.ts           # Auth helpers
+│   ├── db.ts             # Database connection
+│   ├── motion.ts         # Animation tokens
+│   └── seo.ts            # SEO config
+├── prisma/
+│   └── schema.prisma     # Database schema
+├── tests/                # Playwright tests
+└── public/               # Static assets
+```
 
-## Deploy on Vercel
+## 🎨 Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Theme Colors
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Edit `app/globals.css` to customize accent colors:
+```css
+:root {
+  --accent-gold: #FFD700;
+  --accent-cyan: #00FFC8;
+  --accent-purple: #A855F7;
+}
+```
+
+### Services
+
+Edit `app/page.tsx` to add/remove services in the services array.
+
+### Team Members
+
+Edit `app/team/page.tsx` to update team member information.
+
+## 🧪 Testing
+
+Run Playwright tests:
+```bash
+npm run test
+```
+
+## 🚀 Deployment
+
+### Deploy to Vercel
+
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com)
+3. Add environment variables in Vercel dashboard
+4. Deploy!
+
+### Environment Variables for Production
+
+Make sure to set these in your Vercel dashboard:
+- `DATABASE_URL`
+- `MONGODB_URI`
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+
+## 📝 Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+- `npm run test` - Run Playwright tests
+- `npm run type-check` - Check TypeScript types
+
+## 🎯 Performance Tips
+
+- 3D hero is lazy-loaded and pauses when off-screen
+- Images use Next.js Image component for optimization
+- Animations respect `prefers-reduced-motion`
+- Code splitting with dynamic imports
+- Smooth scrolling disabled for reduced motion users
+
+## 📄 License
+
+MIT License - feel free to use this project for your own agency!
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+---
+
+Built with ❤️ by CineCode

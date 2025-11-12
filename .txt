@@ -1,0 +1,125 @@
+CineCode — MASTER PLAN (for Augment / GPT-5 / Claude / V0.dev / Cursor)
+====================================================================
+
+OVERVIEW
+--------
+Project: CineCode — a next-gen cinematic creative agency website.
+Goal: world-class, ultra-minimal, cinematic, motion-first site built in Next.js (App Router) + TypeScript + Tailwind CSS + Framer Motion + React-Three-Fiber.
+Audience: Clients who expect premium UX, filmic motion, and flawless responsiveness.
+
+This file is your single source of truth. AFTER you complete a build step, return to this file and:
+- mark the task done
+- confirm cross-check items (perf targets, accessibility)
+- then proceed to the next task
+
+AI TOOL CHOICES (Recommended for Augment free tier)
+--------------------------------------------------
+Pick the highest-capability model available in Augment. If Augment exposes GPT-5, use it. If not, use the best available (gpt-4o / gpt-4o-mini). Use additional tools as follows:
+
+1. **GPT-5 (or the best available high-capability model in Augment)** — Primary engine for:
+   - Full project scaffolding
+   - Production-ready Next.js TypeScript code
+   - Motion + Three.js + Framer Motion + GSAP code
+   - API routes, db utils, and deployment scripts
+
+2. **Claude Sonnet 4.5** — Creative direction and copy:
+   - Cinematic microcopy, case-study narratives, story beats
+   - Motion storytelling instructions (camera terms, beats)
+   - Tone, hero taglines, CTA variants
+
+3. **V0.dev** — Rapid UI component generation:
+   - Pixel-correct Tailwind components (cards, forms, grids)
+   - Useful for quick visual variants to swap into the codebase
+
+4. **Cursor (or Augment’s repo-editing agent)** — apply patches directly to repo:
+   - Create/modify files, run installs, open dev server, fix compile errors
+   - Best for “no copy/paste” execution
+
+5. **Framer (Figma) + Figma** — design & motion spec handoff:
+   - Build visual prototypes, export Lottie and motion specs
+
+FALLBACK RULE:
+- If GPT-5 not available, pick best available (gpt-4o). Always use Claude Sonnet 4.5 for creative text when available.
+
+TOP-LEVEL PRINCIPLES (Must be enforced)
+---------------------------------------
+- Keep homepage minimal: small headline, single line subline, 2 CTAs, cinematic hero.
+- Each section MUST feel like a film-beat: introduction → reveal → payoff.
+- Respect `prefers-reduced-motion` globally.
+- Lazy-load heavy libs (three, gsap) using dynamic imports in client components ONLY.
+- Keep initial (critical) JS low. Target: **≤ 250 KB** preload JS for first paint.
+- Provide fallback poster images or HeroLite for low-end devices.
+- Add a “Motion Intensity” control (Low/Medium/High/Off) in user settings.
+- Accessibility: keyboard-first navigation, visible focus, contrast, alt tags.
+
+STRUCTURE (High-level IA)
+-------------------------
+Pages:
+- / (Home) — Hero, Services preview, Projects preview, About teaser, Contact CTA
+- /about
+- /services/[slug]
+- /projects/[slug]
+- /team
+- /contact
+- /dashboard (auth gated)
+- /api/* (contact, projects, auth hooks)
+
+Components (must implement):
+- ThreeHero.tsx (client-only, R3F low-poly glyph mesh)
+- HeroLite.tsx (fallback, image poster)
+- HeroWrapper.tsx (client component that chooses R3F or HeroLite)
+- ServiceCard.tsx (interactive)
+- ProjectCard.tsx (video-led preview)
+- ProcessTimeline.tsx (animated timeline)
+- TeamCard.tsx (portrait-focused)
+- MotionWrappers.tsx (prefers-reduced-motion aware wrappers)
+- UI primitives: Button, Icon, Modal, FormField, GradientText
+
+LIBS / DEPENDENCIES (confirmed)
+-------------------------------
+- Next.js (16.x App Router) + TypeScript
+- Tailwind CSS
+- framer-motion
+- gsap (load only when necessary)
+- @studio-freight/lenis (smooth scroll)
+- three, @react-three/fiber, @react-three/drei
+- next-seo
+- @clerk/nextjs or next-auth
+- mongoose (or Prisma + Postgres if needed)
+- zod + react-hook-form
+- rate-limiter-flexible, helmet, xss-clean
+- lucide-react (icons) / custom svgs
+- @vercel/analytics
+
+FONTS & TYPOGRAPHY (hero-worthy)
+--------------------------------
+You said you like Sheriyans hero font. Exact font may be commercial. Recommended approach:
+
+Primary Display (hero & headings)
+- Preferred (commercial): **Neue Montreal** (if you license it)
+- Free alternatives:
+  - **Space Grotesk** (Google Fonts - nice cinematic feel)
+  - **Poppins** / **Montserrat Alternates** (clean, geometric)
+  - **Satoshi** (if available and licensed) — use as a display if you can obtain.
+
+Body (readable)
+- **Inter** (variable, performant, readable)
+- or **Roboto / System UI** fallback
+
+Font usage:
+- Use variable fonts to reduce requests (e.g., Inter Variable)
+- Preload hero font with `rel="preload"` in head for LCP
+- Provide `font-display: swap` as fallback
+
+COLOR PALETTE & TOKENS
+----------------------
+- Base dark: `#050507` (almost black)
+- Off-white: `#F3F4F6`
+- Accent gradient 1 (gold → warm): `#FFD66B → #E8A000`
+- Accent gradient 2 (cyan): `#00FFF0 → #00B8D4`
+- Accent gradient 3 (purple): `#C084FC → #7C3AED`
+
+Tailwind tokens: set as CSS variables in `globals.css`:
+ 
+
+ 
