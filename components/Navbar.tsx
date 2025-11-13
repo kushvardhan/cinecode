@@ -1,248 +1,238 @@
-// Premium Sheryians-inspired navbar with centered menu, glassy blur, and theme toggle
 'use client'
-import { UserButton, useUser } from '@clerk/nextjs'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { Menu, X, Sun, Moon, ChevronDown } from 'lucide-react'
 import { useTheme } from './ThemeProvider'
+import { useUser, UserButton } from '@clerk/nextjs'
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const { setTheme, resolvedTheme } = useTheme()
+  const pathname = usePathname()
   const { isSignedIn, user } = useUser()
+  const [isOpen, setIsOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
+
   const { scrollY } = useScroll()
-
-  // Sheryians-style glassy blur effect
-  const backgroundColor = useTransform(
+  const bg = useTransform(
     scrollY,
-    [0, 50],
-    [
-      resolvedTheme === 'dark' ? 'rgba(0, 0, 0, 0)' : 'rgba(255, 255, 255, 0)',
-      resolvedTheme === 'dark' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
-    ]
+    [0, 60],
+    resolvedTheme === 'dark'
+      ? ['rgba(0,0,0,0)', 'rgba(0,0,0,0.85)']
+      : ['rgba(255,255,255,0)', 'rgba(255,255,255,0.9)']
   )
+  const blur = useTransform(scrollY, [0, 60], ['none', 'blur(18px)'])
 
-  const backdropBlur = useTransform(scrollY, [0, 50], ['blur(0px)', 'blur(24px)'])
-  const borderOpacity = useTransform(scrollY, [0, 50], [0, 0.1])
+  // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+useEffect(() => setIsOpen(false), [pathname])
 
-  // Only 4 centered menu items (Sheryians style)
+
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
-    { href: '/team', label: 'Work' },
+    {
+      href: '/work',
+      label: 'Work',
+      dropdown: [
+        { href: '/projects/web', label: 'Web Projects' },
+        { href: '/projects/design', label: 'Design Works' },
+        { href: '/projects/marketing', label: 'Marketing' },
+      ],
+    },
     { href: '/contact', label: 'Contact' },
   ]
 
-  const toggleTheme = () => {
+  const toggleTheme = () =>
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-  }
 
   return (
     <motion.nav
-      style={{
-        backgroundColor,
-        backdropFilter: backdropBlur,
-        borderBottomColor: `rgba(255, 255, 255, ${borderOpacity})`,
-      }}
-      className="fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300"
+      style={{ backgroundColor: bg, backdropFilter: blur }}
+      className="fixed top-0 left-0 w-full z-50 border-b border-transparent transition-all duration-300"
     >
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo - Left */}
-          <Link href="/" className="flex items-center space-x-3 group z-10">
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative"
-            >
-              <div className="w-11 h-11 bg-linear-to-br from-(--accent-gold) via-(--accent-cyan) to-(--accent-purple) rounded-xl flex items-center justify-center shadow-lg shadow-accent-gold/20">
-                <span className="text-black font-bold text-xl tracking-tight">C</span>
-              </div>
-            </motion.div>
-            <span className="text-xl font-bold bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) bg-clip-text text-transparent tracking-tight">
-              CineCode
-            </span>
-          </Link>
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between relative">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="flex items-center gap-3 font-semibold text-lg tracking-tight"
+        >
+          <motion.div
+            whileHover={{ scale: 1.05, rotate: 5 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 via-cyan-300 to-purple-500 flex items-center justify-center shadow-lg"
+          >
+            <span className="text-black font-bold text-xl">C</span>
+          </motion.div>
+          <span className="bg-gradient-to-r from-amber-400 to-cyan-300 bg-clip-text text-transparent text-xl font-bold">
+            CineCode
+          </span>
+        </Link>
 
-          {/* Centered Navigation - Desktop Only */}
-          <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-2">
-            {navLinks.map((link) => (
-              <Link
+        {/* Centered Nav */}
+        <ul className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-10 font-medium text-[15px]">
+          {navLinks.map((link) =>
+            link.dropdown ? (
+              <li
                 key={link.href}
-                href={link.href}
-                className="group relative px-6 py-2.5 text-sm font-medium tracking-wide transition-all duration-300"
+                className="relative group"
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
               >
-                <span
-                  className={`relative z-10 ${
-                    resolvedTheme === 'dark'
-                      ? 'text-gray-300 group-hover:text-white'
-                      : 'text-gray-700 group-hover:text-black'
+                <button className="flex items-center gap-1 text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors">
+                  {link.label}
+                  <ChevronDown className="w-4 h-4 mt-[2px]" />
+                </button>
+
+                {/* Dropdown */}
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.ul
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-1/2 -translate-x-1/2 mt-3 bg-white dark:bg-neutral-900 shadow-2xl rounded-xl overflow-hidden min-w-[180px] border border-gray-200/20"
+                    >
+                      {link.dropdown.map((item) => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className="block px-5 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 transition"
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+              </li>
+            ) : (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`relative px-2 py-1 transition-all duration-300 ${
+                    pathname === link.href
+                      ? 'text-black dark:text-white'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
                   }`}
                 >
                   {link.label}
-                </span>
-                {/* Sheryians-style hover effect */}
-                <motion.div
-                  className="absolute inset-0 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  whileHover={{ scale: 1.05 }}
-                />
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) group-hover:w-3/4 transition-all duration-500 ease-out" />
-              </Link>
-            ))}
-          </div>
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-amber-400 to-cyan-300 group-hover:w-full transition-all duration-300"></span>
+                </Link>
+              </li>
+            )
+          )}
+        </ul>
 
-          {/* Right Side - Theme Toggle + Auth */}
-          <div className="hidden lg:flex items-center gap-4 z-10">
-            {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.1, rotate: 15 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={toggleTheme}
-              className={`p-2.5 rounded-full transition-all duration-300 ${
-                resolvedTheme === 'dark'
-                  ? 'bg-white/5 hover:bg-white/10'
-                  : 'bg-black/5 hover:bg-black/10'
-              }`}
-              aria-label="Toggle theme"
-            >
-              {resolvedTheme === 'dark' ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-indigo-600" />
-              )}
-            </motion.button>
-
-            {/* Auth - Profile or Sign In */}
-            {isSignedIn ? (
-              <div className="flex items-center gap-3">
-                <span
-                  className={`text-sm font-medium ${
-                    resolvedTheme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                  }`}
-                >
-                  {user?.firstName || 'User'}
-                </span>
-                <UserButton
-                  afterSignOutUrl="/"
-                  appearance={{
-                    elements: {
-                      avatarBox:
-                        'w-10 h-10 ring-2 ring-accent-gold/20 hover:ring-accent-gold/40 transition-all',
-                    },
-                  }}
-                />
-              </div>
-            ) : (
-              <Link
-                href="/sign-in"
-                className="group relative px-6 py-2.5 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-semibold rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-accent-gold/30"
-                data-magnetic="0.3"
-              >
-                <span className="relative z-10">Sign In</span>
-                <motion.div
-                  className="absolute inset-0 bg-white/20"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.5 }}
-                />
-              </Link>
-            )}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className={`lg:hidden p-2.5 rounded-xl transition-all duration-300 ${
-              resolvedTheme === 'dark'
-                ? 'bg-white/5 hover:bg-white/10'
-                : 'bg-black/5 hover:bg-black/10'
+        {/* Right Side */}
+        <div className="hidden lg:flex items-center gap-5">
+          {/* Theme toggle */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleTheme}
+            className={`p-2.5 rounded-full transition-all ${
+              resolvedTheme === 'dark' ? 'bg-white/10' : 'bg-black/5'
             }`}
-            aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            {resolvedTheme === 'dark' ? (
+              <Sun className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-indigo-600" />
+            )}
+          </motion.button>
+
+          {isSignedIn ? (
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-600 dark:text-gray-300">
+                {user?.firstName || 'User'}
+              </span>
+              <UserButton afterSignOutUrl="/" />
+            </div>
+          ) : (
+            <Link
+              href="/sign-in"
+              className="px-6 py-2.5 bg-gradient-to-r from-amber-400 to-cyan-300 text-black font-semibold rounded-full hover:shadow-lg transition-all"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
+
+        {/* Mobile Menu */}
+        <button
+          onClick={() => setIsOpen((p) => !p)}
+          className="lg:hidden p-2 rounded-md"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
 
-      {/* Mobile Menu - Premium Slide-in */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className={`lg:hidden ${
-            resolvedTheme === 'dark'
-              ? 'bg-black/95 border-white/5'
-              : 'bg-white/95 border-black/5'
-          } backdrop-blur-2xl border-t`}
-        >
-          <div className="px-6 py-8 space-y-4">
-            {navLinks.map((link, index) => (
-              <motion.div
-                key={link.href}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
+      {/* Mobile Dropdown */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden px-6 pb-6 space-y-3 bg-white/90 dark:bg-black/90 backdrop-blur-lg"
+          >
+            {navLinks.map((link) => (
+              <div key={link.href}>
                 <Link
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-5 py-3.5 rounded-xl font-medium transition-all duration-300 ${
-                    resolvedTheme === 'dark'
-                      ? 'text-gray-300 hover:text-white hover:bg-white/5'
-                      : 'text-gray-700 hover:text-black hover:bg-black/5'
-                  }`}
+                  className="block py-3 text-gray-800 dark:text-gray-200 text-base font-medium"
                 >
                   {link.label}
                 </Link>
-              </motion.div>
+                {link.dropdown && (
+                  <div className="pl-4 space-y-2">
+                    {link.dropdown.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="block py-1 text-sm text-gray-600 dark:text-gray-300"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
 
-            <div className={`flex items-center justify-between pt-6 border-t ${
-              resolvedTheme === 'dark' ? 'border-white/10' : 'border-black/10'
-            }`}>
+            <div className="pt-4 border-t border-gray-200/20 flex items-center justify-between">
               <button
                 onClick={toggleTheme}
-                className={`flex items-center gap-3 px-5 py-3 rounded-xl font-medium transition-all duration-300 ${
-                  resolvedTheme === 'dark'
-                    ? 'bg-white/5 hover:bg-white/10 text-gray-300'
-                    : 'bg-black/5 hover:bg-black/10 text-gray-700'
-                }`}
+                className="flex items-center gap-2 text-sm"
               >
                 {resolvedTheme === 'dark' ? (
                   <Sun className="w-5 h-5 text-yellow-400" />
                 ) : (
                   <Moon className="w-5 h-5 text-indigo-600" />
                 )}
-                <span className="text-sm">
-                  {resolvedTheme === 'dark' ? 'Light' : 'Dark'}
-                </span>
+                {resolvedTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </button>
 
               {isSignedIn ? (
-                <div className="flex items-center gap-2">
-                  <span className={`text-sm font-medium ${
-                    resolvedTheme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
-                    {user?.firstName}
-                  </span>
-                  <UserButton afterSignOutUrl="/" />
-                </div>
+                <UserButton afterSignOutUrl="/" />
               ) : (
                 <Link
                   href="/sign-in"
-                  onClick={() => setIsOpen(false)}
-                  className="px-6 py-3 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-semibold rounded-full shadow-lg shadow-accent-gold/20"
+                  className="px-5 py-2 bg-gradient-to-r from-amber-400 to-cyan-300 text-black font-semibold rounded-full"
                 >
                   Sign In
                 </Link>
               )}
             </div>
-          </div>
-        </motion.div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   )
 }
