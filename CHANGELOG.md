@@ -27,6 +27,23 @@
 - Added `data-parallax="0.1"` to section headings for subtle parallax effect
 - Removed redundant FadeInUp wrapper (now using GSAP)
 
+#### Navbar Redesign (Sheryians-inspired):
+
+- **Centered Navigation**: Only 4 menu items (Home, About, Work, Contact) centered in navbar
+- **Glassy Blur Effect**: Dynamic backdrop blur on scroll with theme-aware colors
+- **Theme Toggle**: Premium animated button with Sun/Moon icons
+- **Profile Integration**: Shows user first name + Clerk UserButton when signed in
+- **Magnetic Hover**: Sign-in button has `data-magnetic` attribute for cursor-following effect
+- **Responsive Mobile Menu**: Slide-in animation with staggered link reveals
+- **Theme-Aware Styling**: All colors adapt to light/dark mode
+
+#### Authentication Pages:
+
+- **app/sign-in/[[...sign-in]]/page.tsx**: Cinematic sign-in page with animated grid background
+- **app/sign-up/[[...sign-up]]/page.tsx**: Cinematic sign-up page with gradient orbs
+- **Styled Clerk Components**: Custom appearance config for glassy, premium look
+- **Proper Redirects**: Both pages redirect to /dashboard after authentication
+
 ### 🎯 Completed:
 
 - ✅ GSAP ScrollTrigger integration
@@ -35,12 +52,15 @@
 - ✅ Enhanced SEO metadata (OpenGraph, Twitter cards)
 - ✅ Viewport configuration
 - ✅ Homepage GSAP integration started
+- ✅ **Premium Sheryians-inspired Navbar** (centered menu, glassy blur, theme toggle)
+- ✅ **Clerk Sign-In/Sign-Up Pages** (cinematic backgrounds, styled components)
+- ✅ **Profile Integration** (shows user name + avatar when signed in)
 
 ### 🎯 In Progress:
 
-1. Complete homepage GSAP animations for all sections
-2. Add R3F spotlight effects to Hero section
-3. Create sign-in/sign-up pages with Clerk
+1. Create cinematic Hero section with R3F 3D spotlight
+2. Implement Lenis smooth scrolling
+3. Add GSAP ScrollTrigger content reveals
 4. Optimize all pages for mobile responsiveness
 5. Add authentic agency content
 6. Implement page transitions
