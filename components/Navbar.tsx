@@ -18,15 +18,16 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTheme } from './ThemeProvider'
 
 export default function Navbar() {
   const pathname = usePathname()
   const { isSignedIn, user } = useUser()
   const [isOpen, setIsOpen] = useState(false)
-  const [servicesOpen, setServicesOpen] = useState(false)
+  const [hoveredMenu, setHoveredMenu] = useState<string | null>(null)
   const [showSignInTooltip, setShowSignInTooltip] = useState(false)
+  const mobileRef = useRef<HTMLDivElement | null>(null)
   const { resolvedTheme, setTheme } = useTheme()
 
   const { scrollY } = useScroll()
@@ -56,6 +57,11 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
+    {
+      href: '/work',
+      label: 'Work',
+      dropdown: services.map((s) => ({ href: s.href, label: s.label })),
+    },
     { href: '/contact', label: 'Contact' },
   ]
 
@@ -84,68 +90,66 @@ export default function Navbar() {
         </Link>
 
         {/* Centered Navigation - Desktop Only */}
-        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative px-5 py-2.5 text-[15px] font-medium transition-all duration-300 rounded-lg group ${
-                pathname === link.href ? 'text-foreground' : 'text-text-muted hover:text-foreground'
-              }`}
-            >
-              {link.label}
-              <span
-                className={`absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) transition-all duration-500 ease-out ${
-                  pathname === link.href ? 'w-3/4' : 'w-0 group-hover:w-3/4'
-                }`}
-              />
-            </Link>
-          ))}
-
-          {/* Services Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setServicesOpen(true)}
-            onMouseLeave={() => setServicesOpen(false)}
-          >
-            <button className="flex items-center gap-1.5 px-5 py-2.5 text-[15px] font-medium text-text-muted hover:text-foreground transition-all duration-300 rounded-lg group">
-              Services
-              <ChevronDown
-                className={`w-4 h-4 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`}
-              />
-            </button>
-
-            {/* Premium Dropdown Menu */}
-            <AnimatePresence>
-              {servicesOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-card-bg backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-hidden p-2"
+        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-10">
+          {navLinks.map((link) =>
+            link.dropdown ? (
+              <div
+                key={link.href}
+                className="relative"
+                onMouseEnter={() => setHoveredMenu(link.label)}
+                onMouseLeave={() => setHoveredMenu(null)}
+              >
+                <button
+                  aria-haspopup="menu"
+                  aria-expanded={hoveredMenu === link.label}
+                  className={`flex items-center gap-2 px-6 py-3 text-[15px] font-medium rounded-md transition-colors ${
+                    pathname === link.href ? 'text-foreground' : 'text-text-muted'
+                  }`}
                 >
-                  {services.map((service) => {
-                    const Icon = service.icon
-                    return (
-                      <Link
-                        key={service.href}
-                        href={service.href}
-                        className="flex items-center gap-4 px-4 py-3.5 rounded-xl hover:bg-foreground/5 transition-all duration-300 group"
-                      >
-                        <div className="w-10 h-10 rounded-lg bg-linear-to-br from-(--accent-gold)/10 to-(--accent-cyan)/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <Icon className="w-5 h-5 text-(--accent-cyan)" />
-                        </div>
-                        <span className="text-sm font-medium text-foreground group-hover:text-(--accent-cyan) transition-colors">
-                          {service.label}
-                        </span>
-                      </Link>
-                    )
-                  })}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                  {link.label}
+                  <ChevronDown
+                    className={`w-4 h-4 ${hoveredMenu === link.label ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {hoveredMenu === link.label && (
+                    <motion.ul
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.18, ease: [0.2, 0.9, 0.2, 1] }}
+                      className="absolute left-1/2 -translate-x-1/2 mt-3 w-72 bg-card-bg backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-hidden p-2"
+                    >
+                      {link.dropdown!.map((item) => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className="block px-4 py-3 rounded-lg hover:bg-foreground/5 transition-colors"
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative px-6 py-3 text-[15px] font-medium rounded-md transition-colors ${
+                  pathname === link.href
+                    ? 'text-foreground'
+                    : 'text-text-muted hover:text-foreground'
+                }`}
+              >
+                {link.label}
+                <span className="absolute bottom-2 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) w-0 group-hover:w-3/4 transition-all duration-300" />
+              </Link>
+            )
+          )}
         </nav>
 
         {/* Right Side - Theme Toggle + Auth */}
@@ -201,7 +205,7 @@ export default function Navbar() {
                     className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-card-bg backdrop-blur-2xl border border-border rounded-xl shadow-2xl p-4 pointer-events-none"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-linear-to-br from-(--accent-gold)/20 to-(--accent-cyan)/20 flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-linear-to-br from-(--accent-gold)/20 to-(--accent-cyan)/20 flex items-center justify-center shrink-0">
                         <Sparkles className="w-5 h-5 text-(--accent-cyan)" />
                       </div>
                       <div>
@@ -235,85 +239,78 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="lg:hidden overflow-hidden bg-background-secondary/95 backdrop-blur-2xl border-t border-border"
+            ref={mobileRef}
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-y-0 right-0 w-[340px] max-w-[94vw] z-50 bg-background/95 dark:bg-background-secondary/95 backdrop-blur-xl shadow-2xl p-6 lg:hidden"
           >
-            <div className="px-8 py-6 space-y-1">
-              {/* Mobile Nav Links */}
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    href={link.href}
-                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
-                      pathname === link.href
-                        ? 'bg-foreground/10 text-foreground'
-                        : 'text-text-muted hover:bg-foreground/5 hover:text-foreground'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-
-              {/* Mobile Services */}
-              <div className="pt-2">
-                <p className="px-4 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
-                  Services
-                </p>
-                {services.map((service, index) => {
-                  const Icon = service.icon
-                  return (
-                    <motion.div
-                      key={service.href}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: (navLinks.length + index) * 0.1 }}
-                    >
-                      <Link
-                        href={service.href}
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-text-muted hover:bg-foreground/5 hover:text-foreground transition-all duration-300"
-                      >
-                        <Icon className="w-4 h-4" />
-                        {service.label}
-                      </Link>
-                    </motion.div>
-                  )
-                })}
+            <div className="flex flex-col h-full">
+              <div className="flex items-center justify-between mb-6">
+                <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-linear-to-br from-(--accent-gold) to-(--accent-cyan) flex items-center justify-center">
+                    <span className="text-black font-bold">C</span>
+                  </div>
+                  <span className="font-semibold text-lg">CineCode</span>
+                </Link>
+                <button onClick={() => setIsOpen(false)} aria-label="Close menu">
+                  <X />
+                </button>
               </div>
 
-              {/* Mobile Auth + Theme */}
-              <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
+              <nav className="flex-1 overflow-auto">
+                <ul className="space-y-4">
+                  {navLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="block text-lg font-semibold text-foreground"
+                      >
+                        {link.label}
+                      </Link>
+                      {link.dropdown && (
+                        <div className="pl-4 mt-2 space-y-2">
+                          {link.dropdown.map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              onClick={() => setIsOpen(false)}
+                              className="block text-sm text-text-muted"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+
+              <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
                 <button
                   onClick={toggleTheme}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-foreground/5 transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 text-sm"
+                  aria-pressed={resolvedTheme === 'dark'}
                 >
                   {resolvedTheme === 'dark' ? (
-                    <>
-                      <Sun className="w-5 h-5 text-yellow-400" />
-                      Light Mode
-                    </>
+                    <Sun className="w-5 h-5 text-yellow-400" />
                   ) : (
-                    <>
-                      <Moon className="w-5 h-5 text-indigo-600" />
-                      Dark Mode
-                    </>
+                    <Moon className="w-5 h-5 text-indigo-600" />
                   )}
+                  <span className="ml-1">
+                    {resolvedTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                  </span>
                 </button>
 
                 {isSignedIn ? (
-                  <UserButton />
+                  <UserButton afterSignOutUrl="/" />
                 ) : (
                   <Link
                     href="/sign-in"
-                    className="px-6 py-2.5 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-semibold rounded-full text-sm"
+                    className="px-5 py-2 rounded-full bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-semibold"
                   >
                     Sign In
                   </Link>
