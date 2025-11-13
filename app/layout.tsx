@@ -1,10 +1,9 @@
-// Global layout - Server Component with metadata, Lenis wrapper, theme provider, and GSAP effects
 import GsapEffects from '@/components/GsapEffects'
 import LenisWrapper from '@/components/LenisWrapper'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers' // ✅ Make layout async (required for Next.js 16 cookies API)
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -23,7 +22,8 @@ export const metadata: Metadata = {
   authors: [{ name: 'CineCode' }],
   openGraph: {
     title: 'CineCode - Cinematic Digital Experiences',
-    description: 'Premium digital agency crafting exceptional web, mobile, and marketing solutions',
+    description:
+      'Premium digital agency crafting exceptional web, mobile, and marketing solutions',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://cinecode.com',
     siteName: 'CineCode',
     locale: 'en_US',
@@ -32,7 +32,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'CineCode - Cinematic Digital Experiences',
-    description: 'Premium digital agency crafting exceptional web, mobile, and marketing solutions',
+    description:
+      'Premium digital agency crafting exceptional web, mobile, and marketing solutions',
   },
 }
 
@@ -42,16 +43,17 @@ export const viewport = {
   themeColor: '#0a0a0a',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // Read theme cookie server-side to avoid FOUC during SSR
-  const themeCookie = cookies().get('theme')?.value ?? null
-  const htmlClass = themeCookie === 'dark' ? 'dark' : themeCookie === 'light' ? 'light' : undefined
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const themeCookie = cookieStore.get('theme')?.value ?? null
+  const htmlClass =
+    themeCookie === 'dark' ? 'dark' : themeCookie === 'light' ? 'light' : undefined
 
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning className={htmlClass}>
         <body className="antialiased bg-background text-foreground transition-colors duration-300">
-          <ThemeProvider initialTheme={(themeCookie as any) ?? undefined}>
+<ThemeProvider initialTheme={themeCookie as 'light' | 'dark' | null | undefined}>
             <LenisWrapper>
               <GsapEffects />
               {children}
@@ -62,3 +64,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </ClerkProvider>
   )
 }
+
