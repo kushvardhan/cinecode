@@ -44,8 +44,8 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en" className="dark" suppressHydrationWarning>
-        <body className="antialiased">
+      <html lang="en" suppressHydrationWarning>
+        <body className="antialiased bg-background text-foreground transition-colors duration-300">
           <ThemeProvider>
             <LenisWrapper>
               <GsapEffects />

@@ -44,6 +44,52 @@
 - **Styled Clerk Components**: Custom appearance config for glassy, premium look
 - **Proper Redirects**: Both pages redirect to /dashboard after authentication
 
+#### Global Theme System Implementation:
+
+- **Fixed HTML Class**: Removed hardcoded `className="dark"` from `<html>` tag in layout.tsx
+- **Enhanced CSS Variables**: Added comprehensive theme variables for both light and dark modes
+  - `--background`, `--foreground` (main colors)
+  - `--background-secondary` (alternate backgrounds)
+  - `--border-color` (theme-aware borders)
+  - `--card-bg` (card backgrounds with transparency)
+  - `--text-muted` (secondary text color)
+- **Theme-Aware Classes**: Updated all components to use theme variables
+  - `bg-background` instead of `bg-black`
+  - `text-foreground` instead of `text-white`
+  - `text-text-muted` instead of `text-gray-400`
+  - `border-border` instead of `border-white/5`
+- **Smooth Transitions**: Added `transition-colors duration-300` to all theme-aware elements
+- **Files Updated**:
+  - `app/layout.tsx` - Removed hardcoded dark class, added theme-aware body classes
+  - `app/globals.css` - Enhanced CSS variables for both themes
+  - `app/page.tsx` - Updated all sections to use theme variables
+  - `components/Footer.tsx` - Made footer fully theme-aware
+  - `components/Navbar.tsx` - Already theme-aware from previous update
+
+#### Color Scheme:
+
+**Dark Mode** (default):
+
+- Background: `#0a0a0a` (deep black)
+- Foreground: `#ededed` (off-white)
+- Secondary BG: `#1a1a1a` (dark gray)
+- Border: `rgba(255, 255, 255, 0.1)` (subtle white)
+- Muted Text: `#9ca3af` (gray-400)
+
+**Light Mode**:
+
+- Background: `#ffffff` (pure white)
+- Foreground: `#0a0a0a` (deep black)
+- Secondary BG: `#f5f5f5` (light gray)
+- Border: `rgba(0, 0, 0, 0.1)` (subtle black)
+- Muted Text: `#6b7280` (gray-500)
+
+**Accent Colors** (same for both themes):
+
+- Gold: `#FFD700`
+- Cyan: `#00FFC8`
+- Purple: `#A855F7`
+
 ### 🎯 Completed:
 
 - ✅ GSAP ScrollTrigger integration
@@ -55,6 +101,8 @@
 - ✅ **Premium Sheryians-inspired Navbar** (centered menu, glassy blur, theme toggle)
 - ✅ **Clerk Sign-In/Sign-Up Pages** (cinematic backgrounds, styled components)
 - ✅ **Profile Integration** (shows user name + avatar when signed in)
+- ✅ **Global Theme System** (light/dark mode working across entire site)
+- ✅ **Theme-Aware Components** (all pages and components adapt to theme)
 
 ### 🎯 In Progress:
 
