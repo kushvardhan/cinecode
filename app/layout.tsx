@@ -4,6 +4,7 @@ import LenisWrapper from '@/components/LenisWrapper'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
+import { cookies } from 'next/headers'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -42,11 +43,15 @@ export const viewport = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Read theme cookie server-side to avoid FOUC during SSR
+  const themeCookie = cookies().get('theme')?.value ?? null
+  const htmlClass = themeCookie === 'dark' ? 'dark' : themeCookie === 'light' ? 'light' : undefined
+
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning className={htmlClass}>
         <body className="antialiased bg-background text-foreground transition-colors duration-300">
-          <ThemeProvider>
+          <ThemeProvider initialTheme={(themeCookie as any) ?? undefined}>
             <LenisWrapper>
               <GsapEffects />
               {children}

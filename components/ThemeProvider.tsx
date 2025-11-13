@@ -12,18 +12,31 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('system')
+export function ThemeProvider({
+  children,
+  initialTheme,
+}: {
+  children: React.ReactNode
+  initialTheme?: Theme | null
+}) {
+  const [theme, setTheme] = useState<Theme>(initialTheme ?? 'system')
   const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('dark')
 
+  // On mount, sync from cookie/localStorage only if no initialTheme provided
   useEffect(() => {
-    // Get theme from localStorage or default to system
-    const savedTheme = localStorage.getItem('theme') as Theme | null
-    if (savedTheme) {
-      setTheme(savedTheme)
-    }
-  }, [])
+    if (initialTheme) return
 
+    try {
+      const cookieMatch = document.cookie.match(/(?:^|; )theme=([^;]+)/)
+      const cookieTheme = cookieMatch ? (decodeURIComponent(cookieMatch[1]) as Theme) : null
+      const savedTheme = cookieTheme ?? (localStorage.getItem('theme') as Theme | null)
+      if (savedTheme) setTheme(savedTheme)
+    } catch (e) {
+      // ignore
+    }
+  }, [initialTheme])
+
+  // Update resolved theme and persist selection (cookie + localStorage)
   useEffect(() => {
     const root = document.documentElement
 
@@ -43,19 +56,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.classList.remove('dark', 'light')
     root.classList.add(resolved)
 
-    // Save to localStorage
-    localStorage.setItem('theme', theme)
+    try {
+      // Persist to localStorage
+      localStorage.setItem('theme', theme)
+
+      // Persist cookie for SSR (1 year)
+      document.cookie = `theme=${encodeURIComponent(theme)}; Path=/; Max-Age=${60 * 60 * 24 * 365}; SameSite=Lax`
+    } catch (e) {
+      // ignore (e.g., during SSR)
+    }
   }, [theme])
 
-  // Listen for system theme changes
+  // Listen for system theme changes when using 'system'
   useEffect(() => {
     if (theme !== 'system') return
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = (e: MediaQueryListEvent) => {
-      setResolvedTheme(e.matches ? 'dark' : 'light')
+      const newResolved = e.matches ? 'dark' : 'light'
+      setResolvedTheme(newResolved)
       document.documentElement.classList.remove('dark', 'light')
-      document.documentElement.classList.add(e.matches ? 'dark' : 'light')
+      document.documentElement.classList.add(newResolved)
     }
 
     mediaQuery.addEventListener('change', handleChange)
@@ -111,4 +132,3 @@ export function ThemeToggle() {
     </button>
   )
 }
-
