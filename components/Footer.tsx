@@ -1,8 +1,8 @@
 // Multi-column footer with links, social media, and newsletter
 'use client'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Github, Twitter, Linkedin, Instagram, Mail, ArrowRight } from 'lucide-react'
+import { ArrowRight, Github, Instagram, Linkedin, Twitter } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
 export default function Footer() {
@@ -46,9 +46,9 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative bg-black border-t border-white/5">
+    <footer className="relative bg-background border-t border-border transition-colors duration-300">
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-transparent to-black/50 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-transparent to-background-secondary/50 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Top Section */}
@@ -63,10 +63,11 @@ export default function Footer() {
                 CineCode
               </span>
             </Link>
-            <p className="text-gray-400 mb-6 max-w-sm">
-              Crafting digital experiences like cinema. We blend creativity with cutting-edge technology to deliver exceptional results.
+            <p className="text-text-muted mb-6 max-w-sm">
+              Crafting digital experiences like cinema. We blend creativity with cutting-edge
+              technology to deliver exceptional results.
             </p>
-            
+
             {/* Newsletter */}
             <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
               <input
@@ -74,7 +75,7 @@ export default function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-(--accent-cyan) transition-colors text-sm"
+                className="flex-1 px-4 py-2 bg-card-bg border border-border rounded-lg focus:outline-none focus:border-(--accent-cyan) transition-colors text-sm text-foreground placeholder:text-text-muted"
                 required
               />
               <motion.button
@@ -91,13 +92,13 @@ export default function Footer() {
           {/* Links Columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h3 className="text-white font-semibold mb-4">{category}</h3>
+              <h3 className="text-foreground font-semibold mb-4">{category}</h3>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-gray-400 hover:text-(--accent-cyan) transition-colors text-sm"
+                      className="text-text-muted hover:text-(--accent-cyan) transition-colors text-sm"
                     >
                       {link.label}
                     </Link>
@@ -109,8 +110,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-text-muted text-sm">
             © {new Date().getFullYear()} CineCode. All rights reserved.
           </p>
 
@@ -124,10 +125,10 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-card-bg hover:bg-foreground/10 flex items-center justify-center transition-colors border border-border"
                 aria-label={social.label}
               >
-                <social.icon className="w-5 h-5 text-gray-400" />
+                <social.icon className="w-5 h-5 text-text-muted" />
               </motion.a>
             ))}
           </div>
@@ -136,4 +137,3 @@ export default function Footer() {
     </footer>
   )
 }
-

@@ -8,6 +8,7 @@ import ProjectCard from '@/components/ProjectCard'
 import ServiceGrid from '@/components/ServiceGrid'
 import TeamCard from '@/components/TeamCard'
 import type { Metadata, Viewport } from 'next'
+import Link from 'next/link'
 
 export default function Home() {
   const services = [
@@ -62,7 +63,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="bg-black text-white min-h-screen pt-20">
+      <main className="bg-background text-foreground min-h-screen pt-20 transition-colors duration-300">
         {/* Hero Section */}
         <HeroWrapper />
 
@@ -75,7 +76,7 @@ export default function Home() {
             >
               What We Do
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl text-text-muted max-w-3xl mx-auto">
               We craft exceptional digital experiences that blend creativity with cutting-edge
               technology
             </p>
@@ -86,14 +87,14 @@ export default function Home() {
         </section>
 
         {/* Featured Projects Section */}
-        <section className="py-32 px-4 md:px-8 bg-linear-to-b from-black via-gray-900/50 to-black">
+        <section className="py-32 px-4 md:px-8 bg-background-secondary transition-colors duration-300">
           <div className="max-w-7xl mx-auto">
             <FadeInUp>
               <div className="text-center mb-16">
                 <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-(--accent-cyan) to-(--accent-purple) bg-clip-text text-transparent">
                   Featured Work
                 </h2>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                <p className="text-xl text-text-muted max-w-3xl mx-auto">
                   Explore our latest projects and see how we bring ideas to life
                 </p>
               </div>
@@ -109,12 +110,12 @@ export default function Home() {
 
             <FadeInUp delay={0.6}>
               <div className="text-center mt-12">
-                <a
+                <Link
                   href="/projects/ecommerce-platform"
                   className="inline-block px-8 py-3 border-2 border-(--accent-cyan) text-(--accent-cyan) font-semibold rounded-full hover:bg-(--accent-cyan)/10 transition-colors duration-300"
                 >
                   View All Projects
-                </a>
+                </Link>
               </div>
             </FadeInUp>
           </div>
@@ -127,7 +128,7 @@ export default function Home() {
               <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-(--accent-gold) via-(--accent-cyan) to-(--accent-purple) bg-clip-text text-transparent">
                 Our Process
               </h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              <p className="text-xl text-text-muted max-w-3xl mx-auto">
                 A proven methodology that delivers exceptional results every time
               </p>
             </div>
@@ -136,14 +137,14 @@ export default function Home() {
         </section>
 
         {/* Team Preview Section */}
-        <section className="py-32 px-4 md:px-8 bg-linear-to-b from-black via-gray-900/50 to-black">
+        <section className="py-32 px-4 md:px-8 bg-background-secondary transition-colors duration-300">
           <div className="max-w-7xl mx-auto">
             <FadeInUp>
               <div className="text-center mb-16">
                 <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-(--accent-purple) to-(--accent-gold) bg-clip-text text-transparent">
                   Meet Our Team
                 </h2>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                <p className="text-xl text-text-muted max-w-3xl mx-auto">
                   Talented individuals united by a passion for creating exceptional digital
                   experiences
                 </p>
@@ -176,23 +177,24 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             <FadeInUp>
               <h2 className="text-5xl md:text-7xl font-bold mb-8">Ready to Start Your Project?</h2>
-              <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+              <p className="text-xl text-text-muted mb-12 max-w-2xl mx-auto">
                 Let&apos;s create something extraordinary together. Get in touch and bring your
                 vision to life.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
+                <Link
                   href="/contact"
                   className="inline-block px-10 py-4 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) text-black font-bold rounded-full hover:scale-105 transition-transform duration-300 text-lg"
+                  data-magnetic="0.3"
                 >
                   Get in Touch
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/projects/ecommerce-platform"
-                  className="inline-block px-10 py-4 border-2 border-white/30 text-white font-bold rounded-full hover:bg-white/10 transition-colors duration-300 text-lg"
+                  className="inline-block px-10 py-4 border-2 border-border transition-all duration-300 font-bold rounded-full hover:bg-foreground/10 text-lg"
                 >
                   View Our Work
-                </a>
+                </Link>
               </div>
             </FadeInUp>
           </div>
