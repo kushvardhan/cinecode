@@ -1,6 +1,74 @@
-@import 'tailwindcss';
+@import 'tailwindcss'; /* stylelint-disable-line no-unused-vars */
 
-/* CSS custom properties for theming and smooth scrolling */
+/* ================================
+   SATOSHI FONT CONFIGURATION
+   ================================ */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* stylelint-disable unknownAtRules */
+
+
+
+/* Variable font (main) */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Regular (fallback) */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Regular.woff2') format('woff2'),
+       url('/fonts/Satoshi-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Medium */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Black */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Italic */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* stylelint-enable */
+
+/* ================================
+   CSS custom properties for theming and smooth scrolling
+   ================================ */
 :root {
   /* Light mode colors (default) */
   --background: #ffffff;
@@ -10,11 +78,14 @@
   --card-bg: rgba(255, 255, 255, 0.8);
   --text-muted: #6b7280;
 
-  /* Accent colors (same for both themes) */
-  --accent-gold: #ffd700;
-  --accent-cyan: #00ffc8;
-  --accent-purple: #a855f7;
+  /* Accent colors (updated for cinematic feel) */
+  --accent-gold: #ffb347;   /* warm highlight gold */
+  --accent-mint: #00ffcc;   /* mint neon */
+  --accent-purple: #a855f7; /* soft purple glow */
+  --accent-pink: #ff66c4;   /* optional pink for gradient blending */
 }
+
+
 
 @theme inline {
   --color-background: var(--background);
@@ -23,8 +94,7 @@
   --color-border: var(--border-color);
   --color-card-bg: var(--card-bg);
   --color-text-muted: var(--text-muted);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Satoshi', system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -56,6 +126,9 @@
   --text-muted: #6b7280;
 }
 
+/* ================================
+   GLOBAL RESET + BEHAVIOR
+   ================================ */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -64,6 +137,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-family: 'Satoshi', system-ui, sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -83,6 +157,6 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Satoshi', system-ui, sans-serif;
   overflow-x: hidden;
 }

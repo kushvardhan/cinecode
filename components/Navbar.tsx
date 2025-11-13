@@ -56,7 +56,6 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
-    { href: '/team', label: 'Work' },
     { href: '/contact', label: 'Contact' },
   ]
 
@@ -85,7 +84,7 @@ export default function Navbar() {
         </Link>
 
         {/* Centered Navigation - Desktop Only */}
-        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-1">
+        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-3">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -95,7 +94,6 @@ export default function Navbar() {
               }`}
             >
               {link.label}
-              {/* Sheryians-style underline */}
               <span
                 className={`absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-(--accent-gold) to-(--accent-cyan) transition-all duration-500 ease-out ${
                   pathname === link.href ? 'w-3/4' : 'w-0 group-hover:w-3/4'
@@ -125,7 +123,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-card-bg backdrop-blur-2xl border border-border rounded-2xl shadow-2xl overflow-hidden p-2"
+                  className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-card-bg backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-hidden p-2"
                 >
                   {services.map((service) => {
                     const Icon = service.icon
